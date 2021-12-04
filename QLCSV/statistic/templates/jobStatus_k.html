@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/jobStatus.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css %} {% block title %}Thống kê {% endblock %} 
+
+{% block content %}
+
+<div class="container">
+  <div class="heading">
+    <h4>Thống kê</h4>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="container1">
+    <div class="form-row">
+        <div class="form-group col-7">
+            <ul>
+              <li class="active"><a href="{% url 'jobStatus' %}">Tình trạng việc làm</a></li>
+              <li><a href="{% url 'income' %}">Mức thu nhập trung bình</a></li>
+              <li><a href="{% url 'otherStatistics' %}">Nơi làm việc</a></li>
+            </ul>
+        </div>
+        <div class="form-group col-1">
+            <lable for="statistic">Chọn khoá</lable>
+        </div>
+        <form id="jobForm" method="POST" action="{% url 'jobStatus_k' %}">
+            {% csrf_token %}
+            <div class="form-group col-1">
+              <select name="JobSelected" onchange="selectJob();">
+                <option disabled selected="true">Toàn khoá</option>
+                {% for grade in Gradedata %}
+                <option {% if grade.Grade == result %} selected ="selected" {% endif %}>{{grade.Grade}}</option>
+                {% endfor %}
+              </select>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <script>
+    function selectJob() {
+      document.getElementById('jobForm').submit();
+    }
+  </script>
+
+
+  <div class="container2">
+      <div>
+          <h4>Tình trạng việc làm</h4>
+      </div>
+      <div>
+          <p>Thống kê tình trạng việc làm của cựu sinh viên khoá {{ result }}</p>
+      </div>
+      <div class="form-group">
+        <div id="barchart_material" style="width: 800px; height: 500px;"></div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['bar']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable({{values|safe}});
+            var options = {
+              chart: {
+              title: '',
+              subtitle: '',
+              },
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+          }
+        </script>
+      </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+  let btn = document.querySelector("#btn");
+  let contain = document.querySelector("body");
+
+  btn.onclick = function() {
+    contain.classList.toggle("active");
+  }
+</script>
+
+{% endblock %}

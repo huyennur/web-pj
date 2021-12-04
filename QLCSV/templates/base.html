@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <!-- link css-->
+    <link rel="stylesheet" href="{% static 'css/afterlogin_frame.css' %}" />
+    {% block css %}
+    {% endblock %}
+
+    <!--link bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <title>{% block title %}{% endblock %}</title> 
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+  {% block navbar %}
+    <!--nav bar-->
+    <nav class="navbar navbar-expand-sm navbar-light fixed-top ml-auto">
+      <div class="collapse navbar-collapse col-lg-12 justify-content-between" id="collapsibleNavbar">
+        <div class="toggle-menu">
+          <i class="bi bi-list" id="btn"></i>
+        </div>
+
+        <!--search field-->
+        <div class="">
+          <form class="d-flex search-field" method=POST action={% url 'search' %}>
+            {% csrf_token %}
+            <input class="" type="text" placeholder="Tìm kiếm" name="searchInput" id="searchInput"/>
+            <a href="" class="nav-link">
+              <i class="bi bi-search"></i>
+            </a>
+          </form>
+        </div>
+
+        <!--nav item contain mes, noti, user-->
+        <ul class="navbar-nav align-items-center">
+          <!--messages-->
+          <li class="nav-item">
+            <a href="" class="nav-link">
+              <i class="bi bi-chat-dots-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+              </span>
+            </a>
+          </li>
+
+          <!--notifications-->
+          <li class="nav-item noti-appear">
+            <a href="" class="nav-link">
+              <i class="bi bi-bell-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+              </span>
+            </a>
+            <div class="nav-noti">
+              <header class="header-noti">
+                <span>Thông báo mới nhận</span>
+              </header>
+              <ul class="noti-list">
+                <li class="noti-item">
+                  <a href="">
+                      X đã like bài viết Job hiring in Hanoi của bạn
+                  </a>
+                </li>
+                <li class="noti-item">
+                  <a href="">
+                      X đã like bài viết Job hiring in Hanoi của bạn
+                  </a>
+                </li>
+              </ul>
+              <footer class="footer-noti">
+                <a href="" class="footer-btn">Xem tất cả</a>
+              </footer>
+            </div>
+
+          </li>
+
+          <!--user name-->
+          <li class="nav-item">
+            <a href="{% url 'profile' request.session.username %}" class="nav-link">
+              <p id="user-name">{{curr_user.FirstName}} {{curr_user.LastName}}</p>
+            </a>
+          </li>
+
+          <!--user extension-->
+          <li>
+            <div class="btn-group">
+              <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+              <div class="dropdown-menu dropdown-menu-right">
+                {% if request.session.username %}
+                Xin chào {{request.session.username}}
+                <hr>
+            
+                  <a class="dropdown-item" href="{% url 'profile' request.session.username %}">Trang cá nhân</a>
+                  <a class="dropdown-item" href="{% url 'changePass' %}">Đổi mật khẩu</a>
+                  <a class="dropdown-item" href="{% url 'login' %}">Đăng xuất</a>
+                
+                {% endif %}
+              </div>
+            </div>
+          </li>
+
+          <!--user avatar-->
+          <li class="nav-item">
+            <a href="{% url 'profile' request.session.username %}" class="nav-link">
+              <img src="{{ curr_user.profile.image.url }}" alt="user avatar" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    {% endblock %}
+
+    {% block sidebar %}
+    <!--side nav contain logo and nav items-->
+    <div class="sidebar">
+      <!--logo-->
+      <a href="{% url 'afterLogin' %}" class="navbar-brand">
+        <img src="{% static 'img/uetlogo.png' %}" alt="uet logo" id="logo" />
+      </a>
+
+      <ul class="nav-list">
+        <li>
+          <a href="{% url 'afterLogin' %}">
+            <i class="bi bi-house-door-fill"></i>
+            <span>Trang chủ</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'list' %}">
+            <i class="bi bi-card-list"></i>
+            <span>Danh sách</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'donation' %}">
+            <i class="bi bi-cash"></i>
+            <span>Hỗ trợ</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'report' %}">
+            <i class="bi bi-exclamation-square-fill"></i>
+            <span>Báo cáo</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'jobStatus' %}">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Thống kê</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'forum' %}">
+            <i class="bi bi-chat-right-text-fill"></i>
+            <span>Diễn đàn</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'connect' %}">
+            <i class="bi bi-geo-fill"></i>
+            <span>Kết nối</span>
+          </a>
+        </li>        
+      </ul>
+    </div>
+    {% endblock %}
+    {% block content %} {% endblock %}
+    <script>
+      let btn = document.querySelector("#btn");
+      let contain = document.querySelector("body");
+
+      btn.onclick = function () {
+        contain.classList.toggle("active");
+      };
+    </script>
+  </body>
+</html>

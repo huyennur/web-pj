@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--add bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css"
+    />
+    <title>Đăng nhập</title>
+
+    <!--add fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"
+      rel="stylesheet"
+    />
+
+    {% load static %}
+    <!--add css file-->
+    <link rel="stylesheet" href="{% static 'css/login1.css' %}" />
+  </head>
+
+  <body>
+    <div class="container-fluid bg col-lg-12">
+      <div class="row">
+        <div class="col-lg-4 p-0">
+          <img src="{% static 'img/side-login.png' %}" alt="login picture" />
+        </div>
+
+        <div class="col-4 col-md-4 col-sm-4 offset-3">
+          <form class="form-container" method="POST">
+            {% csrf_token %}
+            <!--text decorate-->
+            <p id="welcome">Welcome!</p>
+            <!--login-->
+            <div class="form-group">
+              <!--username field-->
+              <input type="text" name="MSSV" autofocus required />
+              <span></span>
+              <label>Mã sinh viên</label>
+            </div>
+            <div class="form-group">
+              <!--password field-->
+              <input type="password" name="Password" required />
+              <span></span>
+              <label>Mật khẩu</label>
+            </div>
+            <!--forgot the password-->
+            <a href="{% url 'forgotPassEmail' %}"
+              ><span class="pass">Quên mật khẩu?</span></a
+            >
+            <!--login button-->
+            <input
+              type="submit"
+              class="btn-custom btn-block"
+              value="Đăng nhập"
+              onclick="window.location.href='afterlogin.html'"
+            />
+            {% if messages %} {% for msg in messages %}
+            <p>{{msg}}</p>
+            {% endfor %} {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

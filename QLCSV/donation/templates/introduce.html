@@ -1,0 +1,94 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+  <link rel="stylesheet" href="{% static 'css/donation.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css%} 
+{% block title %}Hỗ trợ - Giới thiệu{% endblock %} 
+{% block content %}
+    <div class="container">
+      <div class="heading">
+        <h4>Hỗ trợ nhà trường</h4>
+      </div>
+
+      <div class="line"></div>
+
+      <div class="container1">
+        <ul>
+          <li class="active"><a href="{% url 'donation' %}">Góp quỹ</a></li>
+          <li><a href="{% url 'regis' %}">ĐK thỉnh giảng</a></li>
+          <li><a href="{% url 'introduce' %}">Giới thiệu</a></li>
+        </ul>
+      </div>
+
+      <div class="row">
+        <form class="form-container col-lg-5" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="student-code-input">Mã sinh viên</label>
+            <input type="text" class="form-control" id="student-code-input" value="{{curr_user.Username}}" name="StudentCode" required>  
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="name-input">Họ</label>
+              <input type="text" class="form-control" id="name-input" value="{{curr_user.FirstName}}" name="FirstName">
+          </div>
+      
+            <div class="form-group col-6">
+                <label for="name-input">Tên</label>
+                <input type="text" class="form-control" id="name-input" value="{{curr_user.LastName}}" name="LastName">
+            </div>
+          </div>
+        
+          <div class="form-group">
+            <label for="mail-input">Tiêu đề</label>
+            <input type="text" class="form-control" id="mail-input" name="intro_title" required>  
+          </div>
+      
+          <div class="form-group">
+            <label for="comment-input">Nội dung giới thiệu</label>
+            <textarea class="form-control" id="comment-input" rows="4" name="intro_content" required></textarea>
+          </div>
+        
+          <div class="d-flex justify-content-end">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Xác nhận
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Bạn đã chắc chắn với thông tin đã điền chưa?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      Xác nhận
+                    </button>
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal">Huỷ</button>
+                  </div>
+                </div>
+              </div>
+            </div>        
+          </div>
+                  
+        </form>
+
+        <!--information-->
+        <div class="information col-lg-5 offset-1">
+          <img src="{% static 'img/introduce-img.jpg' %}" alt="" class="form-img">
+          <p>Bạn có thể giới thiệu các công việc; các gói học bổng của các công ty, doanh nghiệp; 
+              các trường trình tuyển thực tập sinh; trao đổi nhân viên;... mà bạn biết.
+            </p>
+        </div>
+      </div>
+    
+    </div>
+{% endblock %}

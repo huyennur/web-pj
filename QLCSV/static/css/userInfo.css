@@ -1,0 +1,35 @@
+.form {
+  position: relative;
+  top: 3rem;
+  width: 60rem;
+}
+
+.form-group label {
+  color: var(--text2);
+}
+
+.form-group span:focus {
+  border-color: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.form-row label {
+  color: var(--text2);
+}
+
+.form-row select {
+  color: var(--text1);
+  border-color: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.radio label {
+  color: var(--text1);
+}
+
+.profile-img {
+  width: 10rem;
+  height: 10rem;
+}

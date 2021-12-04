@@ -1,0 +1,150 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/userInfo.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css %}
+
+{% block title %}Trang cá nhân {% endblock %} 
+
+{% block content%}
+<div class="container">
+  <div class="heading">
+      <h4>Trang cá nhân</h4>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="form">
+      <div class="form-row">
+          <div class="form-group col-3">
+            <img src="{{ user.profile.image.url}}" weight="100px" height="100px" name="useravatar"/>
+          </div>
+    
+          <div class="form-group col-9 row">
+            <div class="form-group col-4">
+              <label for="student-code-input">Mã sinh viên</label>
+              <span class="form-control">{{ user.Username }}</span>
+            </div> 
+    
+            <div class="form-group col-4">
+              <label for="name-input">Họ</label>
+              <span class="form-control">{{user.FirstName}}</span>
+            </div>
+    
+            <div class="form-group col-4">
+              <label for="name-input">Tên</label>
+              <span class="form-control">{{user.LastName}}</span>
+            </div> 
+
+            <div class="form-group col-6">
+              <label for="mail-input">Email</label>
+              <span class="form-control">{{user.Email}}</span>
+            </div>
+
+            {% if user.Group.name == 'student'%}
+
+            <div class="form-group col-4">
+                <label for="Date-of-birth-input">Ngày sinh</label>
+                <div class="date-span row pl-3">
+                  <span class="form-control col-3 mr-2" id="day-input">{{user.student.DateOfBirth.day}}</span>
+                  <span class="form-control col-3 mr-2" id="month-input">{{user.student.DateOfBirth.month}}</span>
+                  <span class="form-control col-3" id="year-input">{{user.student.DateOfBirth.year}}</span>
+                </div>
+            </div>
+
+            <div class="form-group col-2">
+                <label for="gender">Giới tính</label>
+                <span class="form-control">{{user.student.Gender}}</span>
+            </div>
+
+          </div>
+
+      </div>
+
+      <div class="form-row">
+          <div class="form-group col-6">
+            <label for="address-input">Địa chỉ</label>
+            <span class="form-control">{{user.student.Address}}</span>
+          </div>
+          <div class="form-group col-2">
+            <label for="Start-time-school-input">Thời gian vào trường</label>
+            <span class="form-control">{{userSchool.StartTimeShool|date:"d/m/Y"}}</span>
+          </div>
+          <div class="form-group col-2">
+            <label for="finish-time-school-input">Thời gian ra trường</label>
+            <span class="form-control">{{userSchool.FinishTimeSchool|date:"d/m/Y"}}</span>
+          </div>
+          <div class="form-group col-2">
+            <label for="achievement-input">Khoá</label>
+            <span class="form-control">{{userSchool.Grade}}</span>
+          </div>
+      </div>
+
+      <div class="form-row">           
+          <div class="form-group col-4">
+            <label for="achievement-input">Chuyên ngành</label>
+            <span class="form-control">{{userJob.Major}}</span>
+          </div>
+          <div class="form-group col-4">
+            <label for="job-status-input">Thành tích</label>
+            <span class="form-control">{{userSchool.Achievement}}</span>
+          </div>
+          <div class="form-group col-4">
+            <label for="amount-of-donation-input">Quỹ đã đóng góp</label>
+            <span class="form-control">{{user.student.AmountOfDonation}}vnd</span>
+          </div>
+      </div>
+
+      <div class="form-row">
+          <div class="form-group col-4">
+            <label for="job-status-input">Tình trạng việc làm</label>
+            {% if userJob.JobStatus %}
+            <span class="form-control">{{userJob.JobStatus}}</span>        
+            {% else %}
+            <span class="form-control">Không</span>
+            {% endif %}
+          </div>
+
+          {% if userJob.JobStatus == 'Đã có việc làm'%}
+          <div class="form-group col-4">
+            <label for="company-input">Nơi làm việc</label>
+            {% if userJob.JobAddress %}
+            <span class="form-control">{{userJob.JobAddress}}</span>
+            {% else %}
+            <span class="form-control">Không</span>
+            {% endif %}
+          </div>
+
+          <div class="form-group col-4">
+            <label for="positon-input">Vị trí</label>
+            {% if userJob.JobName %}
+            <span class="form-control">{{userJob.JobName}}</span>
+            {% else %}
+            <span class="form-control">Không</span>
+            {% endif %}
+          </div>
+      </div>
+
+      {% endif %} {% endif %} {% if curr_user.Username == user.Username %}
+      <div class="form-row">
+          <div class="form-group col-6">
+          <input
+              type="button"
+              name="update"
+              value="Chỉnh sửa"
+              onclick="window.location.href='{% url 'updateProfile' %}'"
+              class="btn-custom"
+          />
+          </div>
+      </div>
+  </div>
+</div>
+  {% endif %}
+
+{% endblock %}
+
+
+
+
+

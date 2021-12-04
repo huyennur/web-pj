@@ -1,0 +1,143 @@
+ul {
+  list-style-type: none;
+}
+
+.btn-view {
+  border-color: var(--text1);
+  background-color: white;
+  color: var(--text1);
+  height: 2rem;
+  border-radius: 5px;
+}
+
+.btn-view:hover {
+  cursor: pointer;
+}
+
+.btn-view:focus {
+  outline: none;
+}
+
+a h5,
+a h6 {
+  color: var(--text);
+  text-decoration: var(--text);
+}
+
+.box {
+  box-shadow: var(--box-shadow);
+}
+
+.container {
+  box-sizing: border-box;
+  position: relative;
+  top: 10rem;
+  left: 14rem;
+}
+
+.line {
+  position: relative;
+  width: 27rem;
+  height: 0px;
+  border: 1px solid #c4c4c4;
+}
+
+.preview-img {
+  width: 8rem;
+  height: 6rem;
+  box-shadow: var(--box-shadow);
+}
+
+.title {
+  margin-left: 1.5rem;
+}
+
+.heading {
+  position: relative;
+  top: 3rem;
+  left: 4rem;
+}
+
+.job-content {
+  position: relative;
+  top: 5rem;
+}
+
+.block {
+  padding: 1.5rem 3rem;
+  margin-right: 5rem;
+}
+
+.heading1 {
+  position: relative;
+  top: 8rem;
+  left: 4rem;
+}
+
+.alumni-content {
+  position: relative;
+  top: 11rem;
+}
+
+.block1 {
+  margin-right: 5rem;
+}
+
+.alumni {
+  margin-top: 10rem;
+}
+
+.alumni-indicator {
+  position: relative;
+  top: 27rem;
+}
+
+.carousel .carousel-indicators li {
+  background-color: #c4c4c4;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
+
+.carousel .carousel-indicators li:hover {
+  cursor: pointer;
+}
+
+.carousel .carousel-indicators li.active {
+  background-color: #5c85af;
+}
+
+.img-fluid {
+  width: 17rem;
+}
+
+.carousel .carousel-item {
+  transition-duration: 8s, 3s;
+  height: 27rem;
+}
+
+.name {
+  position: relative;
+  top: 2rem;
+}
+
+.work {
+  position: relative;
+  top: 2rem;
+}
+
+.container1 {
+  position: relative;
+  top: 4rem;
+  left: 0;
+}
+
+.heading2 {
+  position: relative;
+  left: 4rem;
+}
+
+.album {
+  position: relative;
+  top: 2rem;
+}

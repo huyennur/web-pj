@@ -1,0 +1,183 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+    <!-- link css-->
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock css%} 
+{% block title %}{{Group.group_name}}{% endblock %} 
+{% block content %}
+
+    <div class="container">
+      <div class="heading">
+        <h4>{{Group.group_name}}</h4>
+      </div>
+
+      <div class="line"></div>
+{% if Posts %}
+      {% for post in Posts %}
+      <!--post 1 preview-->
+      <div class="post">
+        <!-- post header-->
+        <div class="post-header row">
+          <div class="col-lg-1">
+            <a href="{% url 'profile' post.g_post_user.MSSV %}">
+              <img src="{{post.g_post_user.profile.image.url}}" alt="" id="useravatar">
+            </a>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="user-name">
+              <span><a href="{% url 'profile' post.g_post_user.MSSV %}">{{post.g_post_user.FirstName}} {{post.g_post_user.LastName}}</a></span>
+            </div>
+
+            <div class="date">
+              <span><a href="">{{post.g_post_date|date:"h:m d/m/Y"}}</a></span>
+            </div>  
+          </div>
+
+          <!--Admin chỉnh sửa ở đây, nếu là admin hiện sửa xóa ở all bài viết-->
+          {% if curr_user.MSSV == post.g_post_user.MSSV or curr_user.Group.name == 'staff' %}
+          <div class="btn-cmt col-3 pl-5">
+            {% if curr_user.Group.name != 'staff' or curr_user.MSSV == post.g_post_user.MSSV %}
+            <a href="{% url 'g_editpost' pk1=post.id pk2=Group.id %}" class="btn-del">
+              Sửa
+            </a>
+            {% endif %}
+            <!--sửa xóa-->
+            <button class="btn-del" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{post.id}}" id="delep{{post.id}}">
+              Xóa
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop{{post.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                    <!--</button>-->
+                  </div>
+                  <div class="modal-body" id="modalforum">
+                    Bạn có chắc chắn xóa bài đăng?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal" id="delp{{post.id}}" onclick="location.href='{% url 'g_deletepost' pk1=post.id pk2=Group.id%}';">Xóa</button>
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal" id="cancelp">Hủy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            var a = "{{post.id}}"
+            $(document).ready(function(){
+            $("#delep"+a).click(function(){
+              $("#"+a).modal({show:true});
+            });
+            });
+            </script>
+          {% endif %}
+        </div>
+        
+        <!--post content preview-->
+        <div class="post-content-preview">
+          <h4>
+            <a href="{% url 'g_discussion' pk1=post.id pk2=Group.id %}">{{post.g_post_title}}</a>  
+          </h4>
+          
+          <div class="text">
+            {{post.g_post_content| linebreaks}}
+          
+          {% if post.g_post_image %}
+          <img src="{{post.g_post_image.url}}" style="width:600px;height:300px;"/>
+          {% endif %}
+          </div>
+          <br>
+        </div>
+
+        <!--post info-->
+        <div class="post-info">
+          <!--like
+          <form action="{% url 'like_post' pk=post.id %}" method="post">
+            {% csrf_token %}
+          <ul>
+            <li>
+              <button type="submit" class="btn btn-primary btn-sm" name="like_post" value="{{post.post_like}}">
+                <i class="bi bi-hand-thumbs-up-fill" id="like" onclick="vote(this)"></i> Thích
+              </button>
+              <span>{{post.post_like}}</span>
+            </li>
+            <li>-->
+              <a href="{% url 'g_discussion' pk1=post.id pk2=Group.id %}"><i class="bi bi-chat-right"></i></a>
+              <span>{{post.g_post_comment}}</span>
+            <!--</li>
+          </ul>
+          </form>-->
+        </div>
+
+      </div>
+      {% endfor %} 
+      <br>
+      <nav aria-label="Page navigation" class="forum-pagination">
+        <ul class="pagination justify-content-center">
+    
+            {% if Posts.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ Posts.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><a class="page-link">&laquo;</a></li>
+            {% endif %}
+    
+            {% if Posts.number > 5 %}
+            <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+            {% endif %}
+    
+            {% for i in Posts.paginator.page_range %}
+            {% if i > Posts.number|add:"-5" %}
+                {% if i < Posts.number|add:"5" %}
+                    {% if Posts.number == i %}
+            <li class="page-item active"><a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+                    {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+    
+            {% if Posts.number < Posts.paginator.num_pages|add:"-5" %}
+            <li class="page-item"><a class="page-link" href="?page={{ Posts.paginator.num_pages }}">{{ Posts.paginator.num_pages }}</a></li>
+            {% endif %}
+    
+            {% if Posts.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ Posts.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><a class="page-link">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% else %}
+      
+      
+      <div class="post">
+        Nhóm chưa có bài viết nào. Bấm vào "Tạo chủ đề+" để thêm bài viết mới
+      </div> {% endif %}
+
+      <div class="start-topic">
+        <a href="{% url 'g_topic' pk=Group.id %}">
+          <input type="button" value="Tạo chủ đề +" class="btn-custom">
+        </a>
+      </div>
+
+    </div>
+   
+    <br><br><br><br><br>
+    <script>
+      function vote(x) {
+        if (x.style.color == "gray") {
+          x.style.color = "red";
+        } else {
+          x.style.color = "gray";
+        }
+      }
+    </script>
+
+{% endblock %}

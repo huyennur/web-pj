@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% load static%} {% block css %}
+<link rel="stylesheet" href="{% static 'css/import.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css %} {% block content %}
+
+<div class="container">
+  <div class="heading">
+    <h4>Nhập dữ liệu</h4>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="text">
+    <h6>Nhập dữ liệu danh sách cựu sinh viên</h6>
+    Hãy chọn định dạng file mà bạn muốn nhập
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="choice">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        name="file_format"
+      >
+        <option disabled selected="true">Chọn định dạng</option>
+        <option value="1">XLS</option>
+        <option value="2">XLXS</option>
+        <option value="3">CSV</option>
+        <option value="4">JSON</option>
+      </select>
+
+      <input type="submit" class="btn-cus" value="Nhập" />
+    </div>
+    <div>
+      <input type="file" name="importData" />
+    </div>
+  </form>
+  <div class="back">
+    <a href="{% url 'listAdmin' %}">Trở về danh sách</a>
+  </div>
+</div>
+
+{% endblock %}

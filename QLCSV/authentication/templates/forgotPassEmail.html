@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--link bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <title>Quên mật khẩu</title>
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <!--add css file-->
+    <link rel="stylesheet" href="{% static 'css/forgotPassEmail.css' %}">
+  </head>
+
+  <body >
+    <section class="container-fluid bg col-lg-12">
+        <section class="row justify-content-center">
+            <section class="col-12 col-md-4 col-sm-6">
+                <form class="form-container" method="POST">
+                  {% csrf_token %}
+                    <p>Quên mật khẩu?</p>
+                    <h1>Vui lòng nhập email của bạn<br>
+                        Chúng tôi sẽ gửi link xác nhận mật khẩu<hr>
+                    </h1>
+                    <div class="form-group">
+                        <input type="text" name="Email" autofocus required>
+                        <span></span>
+                        <label>Email</label>
+                    </div>  
+                    <div class="d-flex justify-content-center">
+                      <!-- Button trigger modal -->
+                      <button type="submit" class="btn-custom btn-form" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Gửi
+                      </button>
+              
+                      <!-- Modal -->
+                      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              Đường link xác nhận đã được gửi, vui lòng kiểm tra để cài đặt mật khẩu mới
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn-custom" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>        
+                    </div>
+                    {% if messages %} {% for msg in messages %}
+                    <b>{{msg}}</b>
+                    <br>
+                    <em>Nếu bạn đã thay đổi mật khẩu <a href="{% url 'login' %}">Login</a></em>
+                    {% endfor %} {% endif %}
+                </form>
+            </section>
+        </section>
+    </section>
+
+  </body>
+</html>

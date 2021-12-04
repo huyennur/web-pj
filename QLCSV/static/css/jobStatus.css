@@ -1,0 +1,45 @@
+.container1 {
+  position: relative;
+  top: 1rem;
+}
+
+.container1 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: none;
+}
+
+.container1 li {
+  float: left;
+}
+
+.container1 li a {
+  display: block;
+  color: var(--text1);
+  text-align: center;
+  padding: 0 1rem 0 0;
+  text-decoration: none;
+}
+
+.container1 li a:hover {
+  color: var(--text1-hover);
+}
+
+.container1 lable {
+  padding-top: 1rem;
+  color: var(--text1);
+}
+
+.form-container1 select {
+  color: var(--text1);
+  border-color: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.container2 {
+  position: relative;
+  top: 2rem;
+}

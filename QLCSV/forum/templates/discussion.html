@@ -1,0 +1,264 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+  <link rel="stylesheet" href="{% static 'css/discussion.css' %}">
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock css%} 
+{% block title %}{{post.post_title}}{% endblock %} 
+{% block content %}
+    <div class="container">
+      <div class="heading">
+        <a href="{% url 'forum' %}"><h4>Diễn đàn</h4></a>
+      </div>
+
+      <div class="line"></div>
+
+      <div class="start-topic">
+        <a href="{% url 'topic' %}">
+          <input type="button" value="Tạo chủ đề +" class="btn-custom">
+        </a>
+      </div>
+
+      <div class="post">
+        <!-- post header-->
+        <div class="post-header row">
+          <div class="col-lg-1">
+            <a href="{% url 'profile' post.post_user.MSSV %}">
+              <img src="{{post.post_user.profile.image.url}}" alt="" id="useravatar">
+            </a>
+          </div>
+  
+          <div class="col-lg-8">
+            <div class="user-name">
+              <span><a href="{% url 'profile' post.post_user.MSSV %}">{{post.post_user.FirstName}} {{post.post_user.LastName}}</a></span>
+            </div>
+  
+            <div class="date">
+              <span><a href="">{{post.post_date|date:"G:i d/m/Y"}}</a></span>
+            </div>  
+          </div>
+          
+          {% if curr_user.MSSV == post.post_user.MSSV or curr_user.Group.name == 'staff' %}
+          <div class="btn-cmt col-3 pl-5">
+            {% if curr_user.Group.name != 'staff' or curr_user.MSSV == post.post_user.MSSV %}
+            <a href="{% url 'editpost' pk=post.id %}" class="btn-del">
+              Sửa
+            </a>
+            {% endif %}
+            <!--sửa xóa-->
+            <button class="btn-del" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Xóa
+            </button>
+          
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Bạn có chắc chắn xóa bài đăng?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn-custom" data-bs-dismiss="modal" onclick="location.href='{% url 'deletepost' pk=post.id %}';">Xóa</button>
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal">Hủy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+  
+        <!--post content preview-->
+        <div class="post-content">
+          <h4>
+            <a href="">{{post.post_title}}</a>  
+          </h4>
+          
+          <div class="text">
+            {{post.post_content| linebreaks}}
+          </div>
+          {% if post.post_image %}
+          <div class="image">
+            <img src="{{post.post_image.url}}" alt="" class="post-img">
+          </div>
+          {% endif %}
+        </div>
+  
+        <!--post info-->
+        <div class="post-info">
+          <!--like<ul>
+            
+            <li>
+              <i class="bi bi-hand-thumbs-up-fill" id="like" onclick="vote(this)"></i>
+              <span>{{post.post_like}}</span>
+            </li>
+            <li>-->
+              <a href="{% url 'discussion' pk=post.id %}"><i class="bi bi-chat-right"></i></a>
+              <span>{{post.post_comment}}</span>
+            <!--</li>
+          </ul>-->
+        </div>
+      </div>
+  
+      <div class="comment">
+        <h4>Thảo luận</h4>
+        <div class="line"></div>
+        <div class="reader-comment">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="user-comment">
+              <a href="{% url 'profile' curr_user.Username %}"><img src="{{curr_user.profile.image.url}}" alt="" class="user-comment-avatar"></a>
+              <input type="text" class="user-comment-area" placeholder="Viết bình luận..." name="newcmt" required>
+              <div class="row">
+                <!--image upload-->
+                <div class="add-img col-9">
+                  <i class="bi bi-camera-fill" onclick="document.getElementById('getfile').click()"></i>
+                  <input type="file" id="getfile" style="display:none" accept="image/*" onchange="showPreview(event);" name="cmt_image">
+                  <div class="preview">
+                      <img id="getfile-preview" style="width:12rem">
+                      <br><br>
+                  </div>
+                </div> 
+
+                <div class="button col-3">
+                  <!--<a href=""><input type="submit" value="Hủy" class="btn-del pr-0"></a>-->
+                  <a href=""><input type="submit" value="Đăng" class="btn-del"></a>
+                </div>
+              </div>
+            </div>
+          </form>
+          {% for cmt in Cmts %}
+          
+          <div class="reader1 user-cmt">
+            <div class="row">
+              <div class="col-lg-1">
+                <a href="{% url 'profile' cmt.cmt_user.MSSV %}">
+                  <img src="{{cmt.cmt_user.profile.image.url}}" alt="" class="user-comment-avatar">
+                </a>
+              </div>
+      
+              <div class="col-lg-11 row">
+                <div class="col-12 row">
+                  <div class="name-date col-9">
+                    <span class="user-name"><a href="{% url 'profile' cmt.cmt_user.MSSV %}">{{cmt.cmt_user.FirstName}} {{cmt.cmt_user.LastName}}</a></span>
+                    <br>
+                    <span class="date-cmt"><a href="">{{cmt.cmt_date|date:"G:i d/m/Y"}}</a></span>
+                  </div>
+                  {% if curr_user.MSSV == cmt.cmt_user.MSSV or curr_user.Group.name == 'staff' %}
+                  <div class="btn-cmt col-3 pl-5">
+                    {% if curr_user.Group.name != 'staff' or curr_user.MSSV == cmt.cmt_user.MSSV %}
+                      <a href="{% url 'editcmt' pk=cmt.id %}" class="btn-del">
+                        Sửa
+                      </a>
+                    {% endif %}
+                    <!--sửa xóa-->
+                    <button class="btn-del" data-bs-toggle="modal" data-bs-target="#staticBackdrop1{{cmt.id}}" id="delep{{cmt.id}}">
+                      Xóa
+                    </button>
+                  
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop1{{cmt.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Bạn có chắc chắn xóa bình luận?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn-custom" data-bs-dismiss="modal" onclick="location.href='{% url 'deletecmt' pk=cmt.id %}';">Xóa</button>
+                            <button type="button" class="btn-custom" data-bs-dismiss="modal">Hủy</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <script>
+                    var a = "{{cmt.id}}"
+                    $(document).ready(function(){
+                    $("#delep"+a).click(function(){
+                      $("#"+a).modal({show:true});
+                    });
+                    });
+                    </script>
+                  {% endif %}
+                </div>
+
+                <div class="content col-12">
+                  <p>{{cmt.cmt_content}}</p>
+                  {% if cmt.cmt_image %}
+                  <img src="{{cmt.cmt_image.url}}" style="width:12rem" alt=""/>
+                  {% endif %}
+                </div>  
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          
+          <nav aria-label="Page navigation" class="forum-pagination">
+            <ul class="pagination justify-content-center">
+        
+                {% if Cmts.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ Cmts.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                <li class="disabled"><a class="page-link">&laquo;</a></li>
+                {% endif %}
+        
+                {% if Cmts.number > 5 %}
+                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                {% endif %}
+        
+                {% for i in Cmts.paginator.page_range %}
+                {% if i > Cmts.number|add:"-5" %}
+                    {% if i < Cmts.number|add:"5" %}
+                        {% if Cmts.number == i %}
+                <li class="page-item active"><a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+                        {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+        
+                {% if Cmts.number < Cmts.paginator.num_pages|add:"-5" %}
+                <li class="page-item"><a class="page-link" href="?page={{ Cmts.paginator.num_pages }}">{{ Posts.paginator.num_pages }}</a></li>
+                {% endif %}
+        
+                {% if Cmts.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ Cmts.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                <li class="disabled"><a class="page-link">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        </div>
+      </div>
+    
+    </div>
+    
+    <script>
+      function vote(x) {
+        if (x.style.color == "gray") {
+          x.style.color = "red";
+        } else {
+          x.style.color = "gray";
+        }
+      }
+
+      function showPreview(event) {
+          if (event.target.files.length > 0) {
+              var src = URL.createObjectURL(event.target.files[0])
+              var preview = document.getElementById("getfile-preview");
+              preview.src = src;
+              preview.style.display= "block";
+          }
+      }
+    </script>
+{% endblock %}

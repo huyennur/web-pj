@@ -1,0 +1,54 @@
+.container1 {
+    position: relative;
+    top: 1rem;
+}
+
+.container1 ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: none;
+}
+  
+.container1 li {
+    float: left;
+}
+  
+.container1 li a {
+    display: block;
+    color: var(--text1);
+    text-align: center;
+    padding: 0 1rem 0 0;
+    text-decoration: none;
+}
+  
+.container1 li a:hover {
+    color: var(--text1-hover);
+}
+  
+.container1 lable {
+    padding-top: 1rem;
+    color: var(--text1);
+}
+  
+.container1 select {
+    color: var(--text1);
+    border-color: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.form-container2 div p, .form-container3 div p, .form-container4 div p {
+    color: var(--text1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.form-container2, .form-container3, .form-container4{
+    float: left;
+    position: relative;
+    border: none;
+    box-sizing: none;
+    padding: 1.5rem;
+    width: 30rem;
+}

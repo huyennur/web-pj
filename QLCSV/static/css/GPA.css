@@ -1,0 +1,96 @@
+.form-container1 {
+  float: left;
+  position: relative;
+  top: 120px;
+  left: 320px;
+  background: #ffffff;
+  border: none;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 900px;
+}
+.form-container1 lable {
+  font-size: 20px;
+  line-height: 25px;
+  color: #6d8299;
+}
+.form-container1 p {
+  font-size: 20px;
+  line-height: 25px;
+  color: #6d8299;
+}
+.form-container1 h1 {
+  font-size: 50px;
+  line-height: 25px;
+  color: #01003b;
+}
+.form-container1 select {
+  line-height: 25px;
+  font-size: 20px;
+  color: #6d8299;
+  border-color: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.form-container2 {
+  float: left;
+  position: relative;
+  top: 150px;
+  left: 320px;
+  background: #ffffff;
+  border: 2px solid #6d8299;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 900px;
+}
+
+.form-container2 div p {
+  font-size: 15px;
+  line-height: 33px;
+  color: #6d8299;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.form-container2 div h2 {
+  font-size: 27px;
+  line-height: 25px;
+  color: #01003b;
+}
+.form-container2 span {
+  height: 500px;
+}
+.text-center {
+  line-height: 25px;
+  font-size: 20px;
+  color: #6d8299;
+  border-color: none;
+  box-shadow: none;
+  outline: none;
+}
+.form-container1 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: none;
+}
+
+.form-container1 li {
+  float: left;
+}
+
+.form-container1 li a {
+  display: block;
+  color: #6d8299;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.form-container1 li a:hover {
+  color: black;
+  background-color: white;
+  font-weight: bold;
+}

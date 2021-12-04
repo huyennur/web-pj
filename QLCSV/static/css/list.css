@@ -1,0 +1,13 @@
+.container1 {
+  position: relative;
+  top: 5rem;
+  left: 14.4rem;
+  width: 1200px;
+}
+.container1 card-body {
+  border: none;
+}
+.container1 .card .card-header .row .col button {
+  background-color: var(--button-hover-bgcolor);
+  color: var(--button-textcolor);
+}

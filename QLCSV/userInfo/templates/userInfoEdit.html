@@ -1,0 +1,119 @@
+{% extends "base.html" %} {% load static %} {% block css%}
+<link rel="stylesheet" href="{% static 'css/userInfoEdit.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />{% endblock css%}
+{%block title %}Chỉnh sửa trang cá nhân {% endblock %} 
+
+{% block content%}
+<form method="POST">
+<div class="container">
+  <div class="heading">
+      <h4>Trang cá nhân</h4>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="form" method="POST" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+      <div class="form-row">
+          <div class="form-group col-3">
+            <img src="{{curr_user.profile.image.url}}" class="profile-img" name="useravatar"/>
+            <p><input type="file" accept="image/*" name="avatar" class="pt-2" /></p>
+          </div>
+    
+          <div class="form-group col-9 row">
+            <div class="form-group col-4">
+              <label for="student-code-input">Mã sinh viên</label>
+              <span class="form-control">{{curr_user.student.MSSV}}</span>
+            </div> 
+    
+            <div class="form-group col-2">
+              <label for="name-input">Họ</label>
+              <input type="text" class="form-control" id="name-input" name="FirstName" value="{{curr_user.FirstName}}"/>
+            </div>
+    
+            <div class="form-group col-4">
+              <label for="name-input">Tên</label>
+              <input type="text" class="form-control" id="name-input" name="LastName" value="{{ curr_user.LastName }}"/>
+            </div> 
+
+            <div class="form-group col-6">
+              <label for="mail-input">Email</label>
+              <input type="text" class="form-control" id="mail-input" name="Email" value="{{ curr_user.Email }}"/>
+            </div>
+
+            {% if curr_user.Group.name == 'student' %}
+
+            <div class="form-group col-4">
+                <label for="Date-of-birth-input">Ngày sinh</label>
+                <input type="date" class="form-control" id="name-input" name="DateOfBirth" value="{{ curr_user.student.DateOfBirth|date:'Y-m-d' }}"/>
+            </div>
+
+            <div class="form-group col-2">
+                <label for="gender">Giới tính</label>
+                <select name="Gender">
+                    <option>Nam</option>
+                    <option>Nữ</option>
+                    <option>Khác</option>
+                </select>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="form-row">
+          <div class="form-group col-3">
+            <label for="Phone-number-input">Số điện thoại </label>
+            <input type="text" class="form-control" name="PhoneNumber" value="{{ curr_user.student.PhoneNumber }}"/>
+          </div>
+          <div class="form-group col-5">
+            <label for="address-input">Địa chỉ</label>
+            <input type="text" class="form-control" id="address-input" name="Address" value="{{ curr_user.student.Address }}"/>
+          </div>
+          <div class="form-group col-2">
+            <label for="job-status-input">Thành tích</label>
+            {% if curr_user.student.school.Achievement %}
+            <input type="text" class="form-control" id="achievement-input" name="Achievement" value="{{ curr_user.student.school.Achievement }}"/>
+            {% else %}
+            <input type="text" class="form-control" id="achievement-input" name="Achievement" value="Không"/>
+            {% endif %}
+          </div>
+          
+      </div>
+
+      <div class="form-row">          
+
+          <div class="form-group col-4">
+            <label for="jobStatus">Tình trạng nghề nghiệp</label>
+            <div class="form-group col-2">
+              <select name="JobStatus">
+                <option>Đã có việc làm</option>
+                <option>Chưa có việc làm</option>
+                <option>Tiếp tục học</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-2">
+            <label for="company-input">Nơi làm việc</label>
+            <input type="text" class="form-control" id="company-input" name="JobAddress" value="{{ curr_user_job.JobAddress }}"/>
+          </div>
+          <div class="form-group col-2">
+            <label for="positon-input">Vị trí</label>
+            <input type="text" class="form-control" id="position-input" name="JobName" value="{{ curr_user_job.JobName }}"/>
+          </div>
+          <div class="form-group col-3">
+            <label for="Date-of-birth-input">Thời gian bắt đầu công việc</label>
+            <input type="date" class="form-control" name="TimeToStart" value="{{ curr_user_job.TimeToStart|date:'Y-m-d' }}"/>
+          </div>
+    </div>
+    {% endif %}
+      <div class="form-row">
+        <div class="form-group col-6">
+            <input type="submit" class="btn-custom" name="save" value="Lưu" />
+        </div>
+      </div>
+  </div>
+</div>
+
+</form>
+{% endblock %}
+

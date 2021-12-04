@@ -1,0 +1,165 @@
+{% extends "base.html" %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/other-statistic.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css %} {% block title %}Thống kê {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="heading">
+      <h4>Thống kê</h4>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="container1">
+      <div class="form-row">
+          <div class="form-group col-7">
+              <ul>
+                <li class="active"><a href="{% url 'jobStatus' %}">Tình trạng việc làm</a></li>
+              <li><a href="{% url 'income' %}">Mức thu nhập trung bình</a></li>
+              <li><a href="{% url 'otherStatistics' %}">Nơi làm việc</a></li>
+              </ul>
+          </div>
+          <div class="form-group col-1">
+            <lable for="statistic">Chọn khoá</lable>
+        </div>
+        <form id="otherForm" method="POST" action="{% url 'otherStatistics_k' %}">
+            {% csrf_token %}
+            <div class="form-group col-1">
+              <select name="OtherSelected" onchange="selectOther();">
+                <option disabled selected="true">Toàn khoá</option>
+                {% for grade in Gradedata %}
+                <option {% if grade.Grade == result %} selected ="selected" {% endif %}>{{grade.Grade}}</option>
+                {% endfor %}
+              </select>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <script>
+    function selectOther() {
+      document.getElementById('otherForm').submit();
+    }
+  </script>
+
+
+    <form class="form-container2">
+        <div>
+            <p>Theo môi trường làm việc</p>
+        </div>
+        <div class="form-group">
+          <div id="in-out" style="width: 400px; height: 250px;"></div>
+          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+          <script type="text/javascript">
+          google.charts.load('current', {'packages':['bar']});
+          google.charts.setOnLoadCallback(drawStuff);
+
+          function drawStuff() {
+              var data = new google.visualization.arrayToDataTable({{values_w|safe}});
+
+              var options = {
+                  title: '',
+                  width: 400,
+                  legend: { position: 'none' },
+                  chart: { title: '',
+                      subtitle: '' },
+                  bars: 'horizontal', 
+                  axes: {
+                      x: {
+                      0: { side: 'top', label: ''}
+                  }
+              },
+              bar: { groupWidth: "20%" }
+              };
+
+              var chart = new google.charts.Bar(document.getElementById('in-out'));
+                  chart.draw(data, options);
+              };
+          </script>
+        </div>
+      </form>
+      <form class="form-container3">
+          <div>
+              <p>Theo đặc điểm của doanh nghiệp</p>
+          </div>
+          <div class="form-group">
+              <div id="features" style="width: 400px; height: 350px;"></div>
+              <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+              <script type="text/javascript">
+              google.charts.load('current', {'packages':['bar']});
+              google.charts.setOnLoadCallback(drawStuff);
+
+              function drawStuff() {
+                  var data = new google.visualization.arrayToDataTable({{values_f|safe}});
+
+                  var options = {
+                  width: 400,
+                  legend: { position: 'none' },
+                  chart: {
+                      title: '',
+                      subtitle: '' },
+                  axes: {
+                      x: {
+                      0: { side: 'top', label: ''}
+                      }
+                  },
+                  bar: { groupWidth: "20%" }
+                  };
+
+                  var chart = new google.charts.Bar(document.getElementById('features'));
+                  chart.draw(data, google.charts.Bar.convertOptions(options));
+              };
+              </script>
+          </div>
+      </form>
+      <form class="form-container4">
+          <div>
+              <p>Theo địa điểm làm việc</p>
+          </div>
+          <div class="form-group">
+              <div id="place" style="width: 900px; height: 500px;"></div>
+              <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+              <script type="text/javascript">
+              google.charts.load('current', {'packages':['bar']});
+              google.charts.setOnLoadCallback(drawStuff);
+
+              function drawStuff() {
+                  var data = new google.visualization.arrayToDataTable({{values|safe}});
+
+                  var options = {
+                  width: 900,
+                  legend: { position: 'none' },
+                  chart: {
+                      title: '',
+                      subtitle: '' },
+                  axes: {
+                      x: {
+                      0: { side: 'top', label: ''}
+                      }
+                  },
+                  bar: { groupWidth: "90%" }
+                  };
+
+                  var chart = new google.charts.Bar(document.getElementById('place'));
+                  chart.draw(data, google.charts.Bar.convertOptions(options));
+              };
+              </script>
+          </div>
+      </form>
+      </div>
+  </div>
+  
+  </div>
+
+  <script>
+    let btn = document.querySelector("#btn");
+    let contain = document.querySelector("body");
+
+    btn.onclick = function() {
+      contain.classList.toggle("active");
+    }
+  </script>
+
+{% endblock %}

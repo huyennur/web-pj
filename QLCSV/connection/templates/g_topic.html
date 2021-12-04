@@ -1,0 +1,69 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+  <link rel="stylesheet" href="{% static 'css/topic.css' %}">
+{% endblock css%} 
+{% block title %}Bài viết mới{% endblock %} 
+{% block content %}
+    <!--form-->
+    <form class="form-container" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="heading-input">Chủ đề</label>
+        <input type="text" class="form-control" id="heading-input" name="g_post_title" required>  
+      </div>
+  
+      <div class="form-group">
+        <label for="content-input">Nội dung</label>
+        <textarea class="form-control" id="content-input" rows="4" name="g_post_content" required></textarea>
+      </div>
+
+      <!--image upload-->
+      <div class="add-img">
+        <i class="bi bi-camera-fill" onclick="document.getElementById('getfile').click()"></i>
+        <input type="file" id="getfile" style="display:none" accept="image/*" name="g_post_image" onchange="showPreview(event);">
+        <div class="preview">
+            <img id="getfile-preview">
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end">
+        <!-- Button trigger modal -->
+        <button type="submit" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Đăng
+        </button>
+
+        <!-- Modal 
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                </button>
+              </div>
+              <div class="modal-body">
+                Tiêu đề và nội dung không được để trống!
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn-custom" data-bs-dismiss="modal">Đóng</button>	
+              </div>
+              </div>
+            </div>
+          </div> -->
+        </div>        
+      </div>  
+      
+    </form>
+  
+    <script>
+      function showPreview(event) {
+          if (event.target.files.length > 0) {
+              var src = URL.createObjectURL(event.target.files[0])
+              var preview = document.getElementById("getfile-preview");
+              preview.src = src;
+              preview.style.display= "block";
+          }
+      }
+    </script>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/report.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css %} {% block title %}Báo cáo {% endblock %} 
+
+{% block content %}
+
+<div class="container">
+  <div class="heading">
+    <h4>Báo cáo</h4>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="row">
+    <!--form-->
+    <form class="form-container col-lg-5" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name-input">Họ tên</label>
+        <input type="text" class="form-control" id="name-input" name="Name">  
+      </div>
+  
+      <div class="form-group">
+        <label for="title-input">Chủ đề</label>
+        <input type="text" class="form-control" id="title-input" name="Title">
+      </div>
+  
+      <div class="form-group">
+        <label for="message-input">Nội dung</label>
+        <textarea class="form-control" id="message-input" rows="4" name="Messages"></textarea>
+      </div>
+  
+      <!-- <div class="rating">
+        <input type="radio" id="five" name="rate" value="5"> 
+        <label for="five"></label>
+        <input type="radio" id="four" name="rate" value="4"> 
+        <label for="four"></label>
+        <input type="radio" id="three" name="rate" value="3"> 
+        <label for="three"></label>
+        <input type="radio" id="two" name="rate" value="2"> 
+        <label for="two"></label>
+        <input type="radio" id="one" name="rate" value="1"> 
+        <label for="one"></label>
+      </div> -->
+      
+      <div class="d-flex justify-content-end">
+        <!-- Button trigger modal -->
+        <button type="submit" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Xác nhận
+        </button>
+        <br>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                </button>
+              </div>
+              <div class="modal-body">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn-custom" data-bs-dismiss="modal">Đóng</button>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div>    
+      {% if messages %} {% for msg in messages %}
+        <b>{{msg}}</b>
+        {% endfor %} {% endif %}
+    </form>
+
+    <!--information-->
+    <div class="information col-lg-5 offset-1">
+      <img src="{% static 'img/report-img.jpg' %}" alt="" class="form-img">
+      <p>Vui lòng cho chúng tôi biết bạn đang gặp sự cố gì với trang web, hoặc muốn thay đổi tài khoản, ... 
+        Chúng tôi sẽ trả lời và khắc phục sự cố nhanh nhất có thể!
+        </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let btn = document.querySelector("#btn");
+  let contain = document.querySelector("body");
+
+  btn.onclick = function() {
+    contain.classList.toggle("active");
+  }
+</script>
+
+{% endblock %}

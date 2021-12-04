@@ -1,0 +1,33 @@
+.text h6 {
+    margin-top: 1rem;
+}
+
+.choice {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-select {
+    border-color: var(--text1);
+    border-radius: 5px;
+    color: var(--text1);
+    width: 10rem;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--text1);
+}
+
+.btn-cus {
+    border-radius: 5px;
+    color: var(--text1);
+    background: white;
+    border-color: var(--text1);
+    border-width: 0.1rem;
+    margin-left: 1rem;
+}
+
+.back a {
+    color: var(--text);
+}

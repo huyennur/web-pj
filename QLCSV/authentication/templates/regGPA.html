@@ -1,0 +1,34 @@
+<hr />
+<h1>this is student gpa registration</h1>
+<hr />
+<form method="POST">
+  {% csrf_token %}
+  <table border="1">
+    <tr>
+      <td>MSSV</td>
+      <td>
+        <input type="text" placeholder="Enter your MSSV" name="MSSV" required />
+      </td>
+    </tr>
+
+    <tr>
+      <td>GPA</td>
+      <td>
+        <input type="text" placeholder="Enter your gpa" name="GPA" />
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit">registration Student gpa information</button>
+      </td>
+    </tr>
+  </table>
+  {% if messages %} {% for msg in messages %}
+  <b>{{msg}}</b>
+  {% endfor %} {% endif %}
+  <em
+    >if you've done all registration <a href="{% url 'login' %}">Sign in</a></em
+  >
+</form>

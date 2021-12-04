@@ -1,0 +1,67 @@
+{% extends "base.html"%}
+{% load static %} 
+{% block css%}
+  <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock css%} 
+{% block content %}
+    <div class="search_results">
+      {%if searchInput %}
+          <p>You search for {{searchInput}}</p>
+          <br>
+          <table class="table table-striped table-hover table-bordered">
+            {% for student in students %}
+            <tr>
+                <td>
+                    <a href={% url 'profile' student.MSSV %}> <img src="{{student.user.profile.image.url}}" weight=50px height=50px></a>
+                </td>
+                <td class="acc-username"><a href={% url 'profile' student.MSSV %}>{{student.MSSV}} </a></td>
+                <td class="acc-name">{{ student.user.FirstName }} {{ student.user.LastName }}</td>
+                <td><button class="chat_btn" type="submit" style="border-radius:15px; border-width:0.5px; width:45px"><i class="bi-chat-dots"></i></button></td>
+            </tr>
+        {% endfor %}
+              <div class="page nav" >
+                <nav aria-label="Page navigation" class="forum-pagination">
+                    <ul class="pagination justify-content-center">
+                
+                        {% if students.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ students.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                        <li class="disabled"><a class="page-link">&laquo;</a></li>
+                        {% endif %}
+                
+                        {% if students.number > 5 %}
+                        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                        {% endif %}
+                
+                        {% for i in students.paginator.page_range %}
+                        {% if i > students.number|add:"-5" %}
+                            {% if i < students.number|add:"5" %}
+                                {% if students.number == i %}
+                        <li class="page-item active"><a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+                                {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                
+                        {% if students.number < students.paginator.num_pages|add:"-5" %}
+                        <li class="page-item"><a class="page-link" href="?page={{ students.paginator.num_pages }}">{{ students.paginator.num_pages }}</a></li>
+                        {% endif %}
+                
+                        {% if students.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ students.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                        <li class="disabled"><a class="page-link">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </nav></div>
+          </table>
+      {%else %}
+          <h1>You haven't search anything yet!</h1>
+      {%endif%} 
+    </div>
+    {%if searchInput %}
+    
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,11 @@
+.block {
+  padding: 1.5rem 3rem;
+  margin: 3rem;
+  box-shadow: var(--box-shadow);
+  width: 15rem;
+}
+
+.group a h6 {
+  color: var(--text);
+  text-decoration: var(--text);
+}

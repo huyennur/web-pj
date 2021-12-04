@@ -1,0 +1,76 @@
+<hr />
+<h1>this is student school registration</h1>
+<hr />
+<form method="POST">
+  {% csrf_token %}
+  <table border="1">
+    <tr>
+      <td>MSSV</td>
+      <td>
+        <input type="text" placeholder="Enter your MSSV" name="MSSV" required />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Start time of School</td>
+      <td>
+        <input
+          type="date"
+          placeholder="Enter your start time of school"
+          name="StartTimeShool"
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Finish time of School</td>
+      <td>
+        <input
+          type="date"
+          placeholder="Enter your finish time of school"
+          name="FinishTimeSchool"
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Grade</td>
+      <td>
+        <input type="text" placeholder="Enter your grade" name="Grade" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Class</td>
+      <td>
+        <input type="text" placeholder="Enter your class" name="Class" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Achievement</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your achievement"
+          name="Achievement"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit">registration Student school information</button>
+      </td>
+    </tr>
+  </table>
+  {% if messages %} {% for msg in messages %}
+  <b>{{msg}}</b>
+  {% endfor %} {% endif %}
+  <em
+    >if you've done Student school registration
+    <a href="{% url 'regJob' %}">Student Job registration</a></em
+  >
+</form>

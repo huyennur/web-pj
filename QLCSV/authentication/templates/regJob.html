@@ -1,0 +1,104 @@
+<hr />
+<h1>this is student job registration</h1>
+<hr />
+<form method="POST">
+  {% csrf_token %}
+  <table border="1">
+    <tr>
+      <td>MSSV</td>
+      <td>
+        <input type="text" placeholder="Enter your MSSV" name="MSSV" required />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Major</td>
+      <td>
+        <select name="Major">
+          <option value="CN1">CN1</option>
+          <option value="CN2">CN2</option>
+          <option value="CN3">CN3</option>
+          <option value="CN4">CN4</option>
+          <option value="CN5">CN5</option>
+          <option value="CN6">CN6</option>
+          <option value="CN7">CN7</option>
+          <option value="CN8">CN8</option>
+          <option value="CN9">CN9</option>
+          <option value="CN10">CN10</option>
+          <option value="CN11">CN11</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Job Status</td>
+      <td>
+        <input
+          type="radio"
+          placeholder="Are you employed"
+          value="Yes"
+          name="JobStatus"
+        />
+        Yes
+        <input
+          type="radio"
+          placeholder="Are you employed"
+          value="No"
+          name="JobStatus"
+        />
+        No
+        <input
+          type="radio"
+          placeholder="Are you employed"
+          value="ContinuousStudying"
+          name="JobStatus"
+        />
+        Continuously Studying
+      </td>
+    </tr>
+
+    <tr>
+      <td>Job Name</td>
+      <td>
+        <input type="text" placeholder="Enter your job name" name="JobName" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Job Address</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your job name"
+          name="JobAddress"
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Time to start</td>
+      <td>
+        <input
+          type="date"
+          placeholder="Enter your time to start"
+          name="TimeToStart"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit">registration Student job information</button>
+      </td>
+    </tr>
+  </table>
+  {% if messages %} {% for msg in messages %}
+  <b>{{msg}}</b>
+  {% endfor %} {% endif %}
+  <em
+    >if you've done student job registration
+    <a href="{% url 'regGPA' %}">Student gpa registration</a></em
+  >
+</form>

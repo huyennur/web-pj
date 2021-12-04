@@ -1,0 +1,134 @@
+:root {
+  --nav-bg: #ffffff;
+  --text: #000000;
+  --text1: #6d8299;
+  --text2: #00000099;
+  --text-hover: #000000cc;
+  --text1-hover: #6d8299cc;
+  --text2-hover: #00000066;
+  --button-bg: #6d8299;
+  --button-hover-bg: #6d8299cc;
+  --button-text: #ffffff;
+  --button-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+  --carousel-caption-head: rgba(255, 255, 255, 0.6);
+  --carousel-caption-small: rgba(0, 0, 0, 0.6);
+  --box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+html {
+  font-size: 100%; /* 16px */
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Noto Sans", "Open Sans", "Roboto", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+nav {
+  background-color: var(--nav-bg);
+}
+
+.navbar-brand {
+  position: relative;
+  left: 7rem;
+}
+
+.nav-item a {
+  font-weight: bold;
+  color: var(--text1);
+}
+
+.nav-item a:hover {
+  color: var(--text1-hover);
+}
+
+.btn-custom {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: var(--button-shadow);
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.btn-custom:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--button-text);
+  cursor: pointer;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 13rem;
+}
+
+.carousel-caption h5 {
+  font-size: 3rem;
+  color: var(--carousel-caption-head);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.carousel-caption small {
+  font-size: 1rem;
+  color: var(--carousel-caption-small);
+}
+
+.container-center-custom .row .d-inline-flex h3 {
+  position: relative;
+  font-size: 2.5rem;
+  color: var(--text1);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.container-center-custom .row-1 {
+  margin-top: 9.5rem;
+  margin-bottom: 4rem;
+}
+
+.container-center-custom .row-2 .col-sm-3 {
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+}
+
+.container-center-custom .row-2 .col-sm-3 h6 {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--text1);
+  display: inline-block;
+  padding: 4%;
+}
+
+.container-center-custom .row-2 .col-sm-3 i {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--text1);
+}
+
+.container-center-custom .row-2 .col-sm-3 p {
+  text-align: left;
+  margin-left: 14%;
+}
+
+.container-center-custom .row-2 .col-sm-3 p:hover {
+  color: var(--text-hover);
+}
+
+footer {
+  position: relative;
+  top: 12.3rem;
+  font-size: 0.8rem;
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--add bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css"
+    />
+
+    <!--add font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"
+      rel="stylesheet"
+    />
+
+    {% load static %}
+    <!--add css file-->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <title>Trang chủ</title>
+  </head>
+
+  <body>
+    <!-- navigation bar-->
+    <nav class="navbar navbar-expand-sm fixed-top">
+      <!-- nav-logo-->
+      <a href="{% url 'index' %}" class="navbar-brand">
+        <img src="{% static 'img/uetlogo.png' %}" alt="uet logo" />
+      </a>
+
+      <!-- toggle button when resize web-->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- nav-items contains home, about us, contact-->
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ml-3">
+            <a href="{% url 'index' %}" class="nav-link">Trang chủ</a>
+          </li>
+
+          <li class="nav-item ml-3">
+            <a href="#infor-section" class="nav-link">Thông tin</a>
+          </li>
+        </ul>
+      </div>
+
+      <!--login button-->
+      <a
+        class="btn-custom ml-3 mr-3 pl-3 pr-3"
+        href="{% url 'login' %}"
+        role="button"
+        ><b>Đăng nhập</b></a
+      >
+    </nav>
+
+    <!--carousel-image slider -->
+    <div
+      class="container container-center col-lg-12 col-md-12 col-sm-12 p-0 m-0"
+    >
+      <div
+        id="my-carousel"
+        class="carousel slide carousel-fluid"
+        data-ride="carousel"
+      >
+        <!-- carousel indicators-->
+        <ol class="carousel-indicators">
+          <li data-target="#my-carousel" data-slide-to="0" class="active"></li>
+          <li data-target="#my-carousel" data-slide-to="1"></li>
+          <li data-target="#my-carousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- carousel slides-->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <!--image 1-->
+            <img
+              class="d-block w-100 h-100"
+              src="{% static 'img/pic1.png' %}"
+              alt="education img1"
+            />
+            <!--caption-->
+            <div class="carousel-caption">
+              <h5>Website cựu sinh viên UET</h5>
+              <small
+                >Trang web là nơi cựu sinh viên UET có thể kết nối, trao đổi, hỗ
+                trợ,... sau tốt nghiệp<br />
+                <i>Tham gia để biết thêm chi tiết!</i></small
+              >
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <!--image 2-->
+            <img
+              class="d-block w-100"
+              src="{% static 'img/pic2.png' %}"
+              alt="education img2"
+            />
+            <!--caption-->
+            <div class="carousel-caption">
+              <h5>Website cựu sinh viên UET</h5>
+              <small
+                >Trang web là nơi cựu sinh viên UET có thể kết nối, trao đổi, hỗ
+                trợ,... sau tốt nghiệp<br />
+                <i>Tham gia để biết thêm chi tiết!</i></small
+              >
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <!--image 3-->
+            <img
+              class="d-block w-100"
+              src="{% static 'img/pic3.png' %}"
+              alt="education img3"
+            />
+            <!--caption-->
+            <div class="carousel-caption">
+              <h5>Website cựu sinh viên UET</h5>
+              <small
+                >Trang web là nơi cựu sinh viên UET có thể kết nối, trao đổi, hỗ
+                trợ,... sau tốt nghiệp<br />
+                <i>Tham gia để biết thêm chi tiết!</i></small
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- carousel control arrows-->
+        <a
+          class="carousel-control-prev"
+          href="#my-carousel"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+
+        <a
+          class="carousel-control-next"
+          href="#my-carousel"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon"></span>
+        </a>
+      </div>
+    </div>
+
+    <!--more information about alumni center-->
+    <div
+      class="container container-fluid container-center-custom"
+      id="infor-section"
+    >
+      <div class="row row-1 justify-content-center align-items-center">
+        <div class="d-inline-flex p-2">
+          <h3>Tổ chức cựu sinh viên</h3>
+        </div>
+      </div>
+
+      <div class="row row-2 justify-content-center">
+        <div class="col-sm-3 col-lg-3">
+          <i class="bi bi-geo-alt-fill"></i>
+          <h6>Kết nối</h6>
+          <p>Kết nối các cựu sinh viên cùng niên khóa, khu vực,...</p>
+        </div>
+        <div class="col-sm-3 col-lg-3 offset-1">
+          <i class="bi bi-calendar2-event-fill"></i>
+          <h6>Sự kiện</h6>
+          <p>Tổ chức các sự kiện thường niên (họp mặt, trao đổi, ...)</p>
+        </div>
+        <div class="col-sm-3 col-lg-3 offset-1">
+          <i class="bi bi-currency-dollar"></i>
+          <h6>Hỗ trợ</h6>
+          <p>
+            Ủng hộ gây quỹ cho nhà trường cũng như các nguồn nhân lực, công
+            nghệ, tri thức,...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!--footer-->
+    <footer class="bg-dark text-white p-4">
+      <div class="container text-center text-md-left">
+        <div class="row">
+          <div class="footer-left col-sm-6 mt-auto pl-5">
+            <p>Đại học Công nghệ, Đại học Quốc gia Hà Nội</p>
+          </div>
+
+          <div class="footer-center col-sm-3">
+            <p>
+              <i class="bi bi-geo-alt-fill mr-3"></i>E3, 144 Xuân Thủy, Cầu
+              Giấy, Hà Nội
+            </p>
+            <p><i class="bi bi-telephone-fill mr-3"></i>+84 87654321</p>
+            <p><i class="bi bi-envelope-fill mr-3"></i> uet@vnu.edu.vn</p>
+          </div>
+
+          <div class="footer-right col-sm-3">
+            <p class="footer-company-about">
+              <span class="text-uppercase font-weight-bold"
+                >Thông tin website</span
+              >
+              <br />
+              Kết nối cựu sinh viên UET sau tốt nghiệp, tạo cơ hội trao đổi, hỗ
+              trợ về nhiều mặt (công nghệ, nhân lực, ...)
+            </p>
+
+            <div class="footer-icons">
+              <a href="#"><i class="bi bi-facebook text-white pr-2"></i></a>
+              <a href="#"><i class="bi bi-instagram text-white pr-2"></i></a>
+              <a href="#"><i class="bi bi-github text-white"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

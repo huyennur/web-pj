@@ -1,0 +1,143 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+  <link rel="stylesheet" href="{% static 'css/donation.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css%} 
+{% block title %}Hỗ trợ - Góp quỹ{% endblock %} 
+{% block content %}
+    <div class="container">
+      <div class="heading">
+        <h4>Hỗ trợ nhà trường</h4>
+      </div>
+
+      <div class="line"></div>
+
+      <div class="container1">
+        <ul>
+          <li class="active"><a href="{% url 'donation' %}">Góp quỹ</a></li>
+          <li><a href="{% url 'regis' %}">ĐK thỉnh giảng</a></li>
+          <li><a href="{% url 'introduce' %}">Giới thiệu</a></li>
+        </ul>
+      </div>
+
+      <div class="row">
+        <form class="form-container col-lg-5" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="student-code-input">Mã sinh viên</label>
+            <input type="text" class="form-control" id="student-code-input" value="{{curr_user.Username}}" name="StudentCode" required>  
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="name-input">Họ</label>
+              <input type="text" class="form-control" id="name-input" value="{{curr_user.FirstName}}" name="FirstName" required>
+          </div>
+      
+            <div class="form-group col-6">
+                <label for="name-input">Tên</label>
+                <input type="text" class="form-control" id="name-input" value="{{curr_user.LastName}}" name="LastName" required>
+            </div>
+          </div>
+        
+          <div class="form-group">
+            <label for="mail-input">Email</label>
+            <input type="text" class="form-control" id="mail-input" value="{{curr_user.Email}}" name="Email">  
+          </div>
+      
+          <div class="form-group">
+            <label for="phone-input">Số điện thoại</label>
+            <input type="text" class="form-control" id="phone-input" value="{{curr_user.PhoneNumber}}" name="PhoneNumber">
+          </div>
+  
+          <div class="form-group">
+            <label for="account-number-input">Số tài khoản</label>
+            <input type="text" class="form-control" id="account-number-input" name="BankAccountNumber" required>  
+          </div>
+  
+          <div class="form-group">
+            <label for="amount-input">Số tiền ủng hộ</label>
+            <input type="text" class="form-control" id="amount-input" name="AmountOfDonation" required>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-3">
+              <label for="Date-of-birth-input">Ngày ủng hộ</label>
+            </div>
+            <div class="form-group col-6">
+              <input type="date" class="form-control" id="date-of-birth-input" name="DonationDate" required>
+            </div>
+          </div>
+      
+          <div class="form-group">
+            <label for="comment-input">Lời nhắn</label>
+            <textarea class="form-control" id="comment-input" rows="4" name="Messages"></textarea>
+          </div>
+        
+          <div class="d-flex justify-content-end">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Xác nhận
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Bạn đã chắc chắn với thông tin đã điền chưa?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xác nhận</button>
+                  </div>
+                </div>
+              </div>
+            </div>   
+            
+          </div>
+                  
+        </form>
+        <!--
+            {% if messages %}
+            {% for msg in messages %}
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {{msg}}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal">Đóng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}-->
+        <!--information-->
+
+        
+
+        <div class="information col-lg-5 offset-1">
+          <img src="{% static 'img/donation-img.png' %}" alt="" class="form-img">
+          <p>Các bạn có thể ủng hộ nhà trường thông qua: <br>
+            Tài khoản: ************<br>
+            Ngân hàng TMCP Đầu tư và Phát triển Việt Nam - BIDV</p>
+          <p>Số tiền bạn ủng hộ sẽ được sử dụng vào các việc như: trao tặng 
+            các phần học bổng cho sinh viên nghèo, xây dựng cơ sở vật chất,...
+            </p>
+        </div>
+      </div>
+    
+    </div>
+{% endblock %}

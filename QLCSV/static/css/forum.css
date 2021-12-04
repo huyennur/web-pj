@@ -1,0 +1,126 @@
+.post {
+  width: 45rem;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+  padding: 1rem 2rem 2rem 2rem;
+  border-radius: 5px;
+  margin-top: 3rem;
+}
+
+.last-post {
+  margin-bottom: 10rem;
+}
+
+.post-content-preview h4 a{
+  color: var(--text2);
+  text-decoration: none;
+}
+
+.start-topic {
+  position: absolute;
+  top: 4rem;
+  left: 50rem;  
+}
+
+.start-topic a {
+  text-decoration: none;
+}
+
+.post-info ul {
+  position: absolute;
+  left: 32rem;
+  display: flex;
+  list-style-type: none;
+}
+
+.post-info ul li span {
+  margin-right: 1rem;
+}
+
+.post-header {
+  padding-bottom: 1.5rem;
+}
+
+.post-info{
+  padding-bottom: 1rem;
+}
+
+.post-content-preview .image img {
+  width: 30rem;
+  height: 100%;
+}
+
+.user-name span a {
+  color: var(--text2);
+  text-decoration-color: var(--text2);
+  font-weight: bold;
+}
+
+.date span a{
+  color: var(--text2);
+  text-decoration-color: var(--text2);
+  font-size: 0.8rem;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+.bi-hand-thumbs-up-fill {
+  color: gray;
+}
+
+#drop-menu {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.btn-del {
+  font-size: 0.9rem;
+  color: var(--text2);
+  border: none;
+  outline: none;
+  background-color: #FFFFFF;
+}
+
+.btn-del:focus {
+  border: none;
+  outline: none;
+  background-color: none;
+}
+
+.btn-del:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text2);
+}
+
+.forum-pagination {
+  position: relative;
+  left: 10rem;
+  border: none;
+  box-shadow: none;
+  width: 25rem;
+}
+
+.pagination .page-item a {
+  color: var(--text);
+}
+
+.pagination .page-item a:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.pagi-custom {
+  position: absolute;
+  left: 20rem;
+}
+
+.page nav {
+  top: -1.25rem;
+  left: 32.5rem;
+  width: 10rem;
+}

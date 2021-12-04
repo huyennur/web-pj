@@ -1,0 +1,148 @@
+<h1>this is student registration information</h1>
+<hr />
+<form method="POST">
+  {% csrf_token %}
+  <table border="1">
+    <tr>
+      <td>MSSV</td>
+      <td>
+        <input type="text" placeholder="Enter your MSSV" name="MSSV" required />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Password</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your password"
+          name="Password"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>First name</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your first name"
+          name="FirstName"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Last name</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your last name"
+          name="LastName"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Date of Birth</td>
+      <td>
+        <input
+          type="date"
+          placeholder="Enter your date of birth"
+          name="DateOfBirth"
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Gender</td>
+      <td>
+        <input
+          type="radio"
+          placeholder="Enter your gender"
+          value="Male"
+          name="Gender"
+        />
+        Male
+        <input
+          type="radio"
+          placeholder="Enter your gender"
+          value="Female"
+          name="Gender"
+        />
+        Female
+        <input
+          type="radio"
+          placeholder="Enter your gender"
+          value="Other"
+          name="Gender"
+        />
+        Other
+      </td>
+    </tr>
+
+    <tr>
+      <td>Email</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your email"
+          name="Email"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Phone Number</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your phone number"
+          name="PhoneNumber"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Address</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your address"
+          name="Address"
+          required
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td>Amount of Donation</td>
+      <td>
+        <input
+          type="text"
+          placeholder="Enter your amount of donation"
+          name="AmountOfDonation"
+        />
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit">registration Student information</button>
+      </td>
+    </tr>
+  </table>
+  {% if messages %} {% for msg in messages %}
+  <b>{{msg}}</b>
+  {% endfor %} {% endif %}
+  <em
+    >if you've done student account info
+    <a href="{% url 'regSchool' %}">Student school Registration</a></em
+  >
+</form>

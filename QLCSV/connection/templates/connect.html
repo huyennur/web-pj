@@ -1,0 +1,81 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+    <link rel="stylesheet" href="{% static 'css/connect.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}" />
+{% endblock css%} 
+{% block title %}Kết nối{% endblock %} 
+{% block content %}
+    <div class="container">
+      <div class="heading">
+        <h4>Nhóm kết nối CSV</h4>
+      </div>
+
+      <div>
+        <h6>Hướng dẫn tạo nhóm mới: Click vào mục "Báo cáo" để đăng kí với admin. Admin sẽ duyệt và báo lại cho bạn khi nhóm đã được thành lập</h6>
+      </div>
+  
+      <div class="line"></div>
+      
+      <div class="container1 row">
+        <div class="row justify-content-center">
+{% for gr in Groups %}
+          <div class="block box">
+            <div class="icon">
+              <i class="bi bi-person-workspace"></i>
+            </div>
+            <div class="group">
+              <a href="{% url 'group' pk=gr.id %}"><h6>{{gr.group_name}}</h6></a>
+            </div>
+            <div class="info">
+              {{gr.group_infor}}
+            </div>
+            <div class="city">
+              Khu vực HĐ: {{gr.group_area}}
+            </div>
+          </div>
+{% endfor %}
+          
+        </div>
+      </div>
+      <br>
+      <nav aria-label="Page navigation" class="forum-pagination pagi-custom">
+        <ul class="pagination justify-content-center">
+      
+            {% if Groups.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ Groups.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><a class="page-link">&laquo;</a></li>
+            {% endif %}
+      
+            {% if Groups.number > 5 %}
+            <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+            {% endif %}
+      
+            {% for i in Groups.paginator.page_range %}
+            {% if i > Groups.number|add:"-5" %}
+                {% if i < Groups.number|add:"5" %}
+                    {% if Groups.number == i %}
+            <li class="page-item active"><a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+                    {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+      
+            {% if Groups.number < Groups.paginator.num_pages|add:"-5" %}
+            <li class="page-item"><a class="page-link" href="?page={{ Groups.paginator.num_pages }}">{{ Groups.paginator.num_pages }}</a></li>
+            {% endif %}
+      
+            {% if Groups.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ Groups.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><a class="page-link">&raquo;</a></li>
+            {% endif %}
+        </ul>
+      </nav>
+      <br>
+    </div>
+{% endblock %}
