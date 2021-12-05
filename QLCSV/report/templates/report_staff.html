@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/afterlogin.css' %}">
+  <link rel="stylesheet" href="{% static 'css/list.css' %}">
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block title %}Danh sách phản hồi{% endblock %}
+{% block content %}
+{% csrf_token %}
+<div class="container1">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-md-1 text-right">
+            <button type="submit" id="export_button" class="btn btn-outline-secondary">Export</button>
+        </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="student_data" class="table table-striped table-hover table-bordered" style="text-align: center">
+          <thead>
+            <tr>
+              <th style="width:20%">Họ và tên</th>
+              <th style="width:25%">Chủ đề</th>
+              <th>Nội dung</th>
+              <th style="width:20%">Thời gian</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for report in reports %}
+            <tr>
+                <td> {{report.Name}}</td>
+                <td> {{report.Title}}</td>
+                <td> {{report.Messages}}</td>
+                <td> {{report.ReportDate|date:"d-m-Y H:i"}} </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+      </div>
+  </div>
+    
+</div>
+
+{%endblock%}
+    
+
+{% block js %}
+<script src="{% static "js/list.js" %}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
+</html>

@@ -1,59 +1,121 @@
-{% extends "base.html" %} {% load static %} {% block css %}
-<link rel="stylesheet" href="{% static 'css/afterlogin.css' %}" />
-<link rel="stylesheet" href="{% static 'css/list.css' %}" />
-{% endblock css %} {% block title %}Báo cáo {% endblock %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/afterlogin.css' %}">
+  <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+{% block title %}Danh sách cựu sinh viên{% endblock %}
+{% block content %}
+{% csrf_token %}
 <div class="container1">
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col col-md-6">Danh sách cựu sinh viên K64</div>
-        <div class="col col-md-6 text-right">
-          <button
-            type="button"
-            id="export_button"
-            class="btn btn-success btn-sm"
-          >
-            Export
-          </button>
+        {% if curr_user.Group.name == 'staff'%}
+        <div class="col col-md-1 text-right">
+          <button type="submit" id="add_button" class="btn btn-outline-secondary"><a href="{% url 'add-student'%}" style="color: black;">Thêm</a></button>
+        </div>
+        <div class="col col-md-1 text-right">
+          <button type="submit" id="fix_button" class="btn btn-outline-secondary">Sửa</button>
+        </div>
+        <div class="col col-md-1 text-right">
+          <button type="submit" id="del_button" class="btn btn-outline-secondary" onclick="deleteStudent()">Xóa</button>
+        </div>
+        <div class="col col-md-1 text-right">
+          <button type="submit" id="export_button" class="btn btn-outline-secondary">Export</button>
+        </div>
+        <div class="col col-md-1 text-right">
+          <button type="submit" id="import_button" class="btn btn-outline-secondary">Import</button>
+        </div>
+        {% endif %}
+        <div class="col col-1">
+          <select id="select_grade" class="btn btn-outline-secondary">
+            <option value="none">---Chọn khối---</option>
+            {% for grade in grades %}
+              <option value={{ grade.Grade }}>{{grade.Grade}}</option> 
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col col-2">
+          <select id="select_address" class="btn btn-outline-secondary">
+            <option value="none">---Chọn nơi làm việc---</option>
+            {% for address in addresses %}
+              <option value={{ address }}>{{ address }}</option> 
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col col-3">
+          <select id="select_major" class="btn btn-outline-secondary">
+            <option value="none">---Chọn chuyên ngành---</option>
+            {% for major in majors %}
+              <option value={{ major }}>{{ major }}</option> 
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col col-md-1 text-right">
+          <button type="submit" id="add_button" class="btn btn-outline-secondary" onclick="searchStudent()">Tìm</button>
         </div>
       </div>
     </div>
     <div class="card-body">
-      <table id="employee_data" class="table table-striped table-bordered">
-        <tr>
-          <th>Mã sinh viên</th>
-          <th>Họ và tên</th>
-          <th>Mã khoá</th>
-          <th>Lớp</th>
-        </tr>
-      </table>
-    </div>
+        <table id="student_data" class="table table-striped table-bordered">
+          <tr>
+              <th></th>
+              <th>MSSV</th>
+              <th>Họ và tên</th>
+              <th>Ngày sinh</th>
+              <th>Giới tính</th>
+              <th>Chuyên ngành</th>
+              <th>Nơi ở hiện tại</th>
+              <th>Số điện thoại</th>
+          </tr>
+          {% for student in students %}
+            <tr id="{{student.user.Username}}">
+              <td><input type="checkbox" name="studentUsername[]" value="{{student.user.Username}}" id="delete-student"></td>
+              <td>
+                <a href={% url 'profile' student.user.Username %}> {{student.MSSV}}</a>
+              </td>
+              <td>
+                <a href={% url 'profile' student.user.Username %}> {{ student.user.FirstName }} {{ student.user.LastName }}</a>
+              </td>
+              <td>
+                {{ student.DateOfBirth|date:"d-m-Y" }}
+              </td>
+              <td>
+                {{ student.Gender }}
+              </td>
+              <td>
+                {% for job in jobs %}
+                  {% if student.MSSV == job.MSSV %}
+                    {{ job.Major }}
+                  {% endif %}
+                {% endfor %}
+              </td>
+              <td>
+                {% for adr in currentAddress%}
+                  {% if student.MSSV == adr.MSSV %}
+                    {{ adr.CurrentAddress }}
+                  {% endif %}
+                {% endfor %}
+              </td>
+              <td>
+                {% if student.PhoneNumber %}
+                  {{ student.PhoneNumber }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
   </div>
+    
 </div>
 
-<script>
-  let btn = document.querySelector("#btn");
-  let contain = document.querySelector("body");
+{%endblock%}
+    
 
-  btn.onclick = function () {
-    contain.classList.toggle("active");
-  };
-
-  function html_table_to_excel(type) {
-    var data = document.getElementById("employee_data");
-
-    var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
-
-    XLSX.write(file, { bookType: type, bookSST: true, type: "base64" });
-
-    XLSX.writeFile(file, "file." + type);
-  }
-
-  const export_button = document.getElementById("export_button");
-
-  export_button.addEventListener("click", () => {
-    html_table_to_excel("xlsx");
-  });
-</script>
-
+{% block js %}
+<script src="{% static "js/list.js" %}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 {% endblock %}
+</html>

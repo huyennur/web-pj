@@ -39,10 +39,12 @@ def UserReg(request):
         PhoneNumber = request.POST['PhoneNumber']
         Address = request.POST['Address']
         AmountOfDonation = request.POST['AmountOfDonation']
-        group = Group.objects.get(name="user")
+        group = Group.objects.get(name="student")
 
-        Student(MSSV=MSSV, Password=Password, FirstName=FirstName, LastName=LastName, DateOfBirth=DateOfBirth,
-                Gender=Gender, Email=Email, PhoneNumber=PhoneNumber, Address=Address, AmountOfDonation=AmountOfDonation, Group=group).save()
+        user = Account.objects.create(Username=MSSV, Password=Password, FirstName=FirstName, LastName=LastName, Email=Email, Group=group)
+
+        Student(user=user, MSSV=MSSV,  DateOfBirth=DateOfBirth,
+                Gender=Gender,  PhoneNumber=PhoneNumber, Address=Address, AmountOfDonation=AmountOfDonation).save()
 
         messages.success(request, 'The new user ' +
                          request.POST['MSSV'] + ' is added succesfully')
@@ -59,8 +61,9 @@ def studentSchoolReg(request):
         Grade = request.POST['Grade']
         Class = request.POST['Class']
         Achievement = request.POST['Achievement']
+        user = Student.objects.get(MSSV=MSSV)
 
-        School(MSSV=MSSV, StartTimeShool=StartTimeShool, FinishTimeSchool=FinishTimeSchool,
+        School(Student=user, MSSV=MSSV, StartTimeShool=StartTimeShool, FinishTimeSchool=FinishTimeSchool,
                Grade=Grade, Class=Class, Achievement=Achievement).save()
 
         messages.success(request, 'The new user ' +

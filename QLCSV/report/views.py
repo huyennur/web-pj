@@ -2,6 +2,7 @@ from django.contrib import messages
 from report.models import Report
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
+from authentication.models import Account
 
 
 def report(request):
@@ -14,4 +15,10 @@ def report(request):
             request, 'Báo cáo thành công! Cảm ơn bạn đã đóng góp ý kiến. Chúng tôi sẽ phản hồi nhanh nhất có thể!')
         return HttpResponseRedirect(request.path)
     else:
-        return render(request, 'report.html')
+        user = Account.objects.get(Username=request.session['username'])
+        reports = Report.objects.all()
+        if (user.Group.name == 'staff'):
+            return render(request, 'report_staff.html', {'reports': reports})
+        else:
+            return render(request, 'report.html')
+        
