@@ -27,7 +27,8 @@ urlpatterns = [
     path('statistic/', include('statistic.urls')),
     path('forum/', include('forum.urls')),
     path('connection/', include('connection.urls')),
-    path('list/', include('list.urls'))
+    path('list/', include('list.urls')),
+    path('chat/', include('chat.urls'))
 ]
 
 if settings.DEBUG:

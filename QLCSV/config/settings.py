@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'connection',
     'import_export',
     'list',
+    'chat',
 ]
 
 MIDDLEWARE = [

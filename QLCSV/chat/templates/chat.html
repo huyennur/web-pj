@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/afterlogin.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/chat.css' %}" />
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
+{% endblock %}
+{% block title %}Trò chuyện{% endblock %}
+{% block content %}
+
+    <div id="frame">
+      <div id="sidepanel">
+        <div id="profile">
+          <div class="wrap">
+            <img id="profile-img" src="{{ curr_user.profile.image.url }}" class="online" alt="" />
+            <p>{{curr_user.FirstName}} {{curr_user.LastName}}</p>
+            <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div id="search">
+          <label for=""><i class="bi bi-search" aria-hidden="true"></i></label>
+          <input type="text" placeholder="Tìm kiếm" />
+        </div>
+        <div id="contacts">
+        <ul>
+        {% for room in rooms %}
+         <li class="contact {% if forloop.first %}active{% endif %}" 
+         to="{% if room.user1.Username == curr_user.Username %} {{room.user2.Username}} {% else %} {{room.user1.Username}} {% endif %}" 
+         id="{{ room.id }}"> 
+          <div class="wrap">
+            <span class="contact-status online"></span>
+            {%if room.user1.Username == curr_user.Username %}
+              <img src="{{ room.user2.profile.image.url }}" alt="" />
+              <div class="meta">
+                <p class="name">{{ room.user2.FirstName}} {{room.user2.LastName}}</p>
+                <p class="preview">{{ room.lastMessage }}</p>
+              </div>
+            {% else %}
+              <img src="{{ room.user1.profile.image.url }}" alt="" />
+              <div class="meta">
+                <p class="name">{{ room.user1.FirstName}} {{room.user1.LastName}}</p>
+                <p class="preview">{{ room.lastMessage }}</p>
+              </div>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+        </ul>
+          
+        </div>
+        <div id="bottom-bar">
+          <button id="addcontact"><i class="bi bi-person-plus" aria-hidden="true"></i> <span>Thêm liên hệ</span></button>
+          <button id="settings"><i class="bi bi-gear" aria-hidden="true"></i> <span>Cài đặt</span></button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="contact-profile">
+          <img src="" alt="" />
+          <p id="header-contact-name"></p>
+          <div class="social-media">
+            <i class="bi bi-facebook" aria-hidden="true"></i>
+            <i class="bi bi-twitter" aria-hidden="true"></i>
+            <i class="bi bi-instagram" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="messages">
+          <ul id="chat-log">
+
+          </ul>
+        </div>
+        <div class="message-input">
+          <div class="wrap">
+          <input id="chat-message-input" type="text" placeholder="Viết tin nhắn..." onkeypress="sendMsg(event)"/>
+          <i class="bi bi-paperclip attachment" aria-hidden="true"></i>
+          <button id="chat-message-submit" class="submit"><i class="bi bi-reply-fill" aria-hidden="true"></i></button>
+          </div>
+      </div>
+    </div>
+    </div> 
+{% endblock %}
+{% block js %}
+<script src="{% static "js/chat.js" %}"></script>
+<script>
+const username = {{username}};
+const imageurl = {{image}};
+var room_id = {{rooms.0.id}};
+
+</script>
+{% endblock %}

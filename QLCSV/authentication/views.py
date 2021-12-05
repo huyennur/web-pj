@@ -191,8 +191,9 @@ def search(request):
 
 
 def search(request):
+    print("First search")
     if request.method == "POST":
-
+        print("Inner search")
         searchInput = request.POST.get("searchInput")
         students = Student.objects.filter(
             user__Username__icontains=searchInput) or Student.objects.filter(user__FirstName__icontains=searchInput)\

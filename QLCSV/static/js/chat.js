@@ -4,7 +4,6 @@ loadContacts();
 
 function loadContacts() {
     var contacts = $('#contacts ul');
-    var isActive;
     setInterval(function() {
         $.ajax({
             url: "load-contacts/",
@@ -73,9 +72,9 @@ $('.contact').on('click', function() {
     $('.contact-profile img').attr('src', $(this).children().children("img").attr('src'));
 
     room_id = $(this).attr('id');
-    setInterval(function() {
+    //setInterval(function() {
 
-        $.ajax({
+    $.ajax({
             url: "get-messages/",
             method: "POST",
             data: {
@@ -101,7 +100,7 @@ $('.contact').on('click', function() {
 
             }
         })
-    }, 1000);
+        // }, 1000);
 
 });
 
@@ -132,6 +131,7 @@ function newMessage() {
 };
 
 $('.chat_btn').on('click', function() {
+    console.log("Here!");
     var username = $(this).parents().siblings('.acc-username').text();
     $.ajax({
         url: '/chat/index/check-room/',
@@ -150,9 +150,9 @@ $('.submit').click(function() {
     newMessage();
 });
 
-$(window).on('keydown', function(e) {
-    if (e.which == 13) {
+function sendMsg(event) {
+    if (event.which == 13) {
         newMessage();
         return false;
     }
-});
+}
