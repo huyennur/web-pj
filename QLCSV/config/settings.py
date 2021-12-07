@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'import_export',
     'list',
     'chat',
-    'notification',
 ]
 
 MIDDLEWARE = [
