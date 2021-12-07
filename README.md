@@ -1,8 +1,7 @@
 # web-pj
 BTL WEB: QLCSV
 
-DATABASE mới: qlcsv
-Có bảng Students t tạo sẵn để làm thử cái import export, bọn m k cần quan tâm, nhớ đừng gọi nhầm là đc
+DATABASE: qlcsv
 
 Các lệnh cần thiết:
 
