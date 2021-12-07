@@ -1,13 +1,13 @@
 #frame {
     position: relative;
     top: 5.1rem;
-    left: 14.5rem;
-    width: 95%;
+    left: 13.6rem;
+    width: 90%;
     min-width: 360px;
-    max-width: 1300px;
-    height: 89vh;
+    max-width: 1222px;
+    height: 150vh;
     min-height: 300px;
-    max-height: 720px;
+    max-height: 770px;
     background: #e6eaea;
 }
 
@@ -294,7 +294,7 @@
     }
 }
 
-#frame #sidepanel #contacts ul li.contact .wrap .meta .name {
+#frame #sidepanel #contacts ul li.contact .wrap .meta .name1 {
     font-weight: 600;
 }
 

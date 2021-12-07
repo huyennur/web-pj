@@ -1,6 +1,7 @@
 from django.core.checks import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 from authentication.models import Student, Account, Students
+from authentication.admin import JobResource
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -8,6 +9,8 @@ from authentication.models import Job, School, GPA
 from django.contrib.auth.models import Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from forum.models import Post
+from django.db import connection
+import json
 
 
 def login(request):
@@ -39,12 +42,10 @@ def UserReg(request):
         PhoneNumber = request.POST['PhoneNumber']
         Address = request.POST['Address']
         AmountOfDonation = request.POST['AmountOfDonation']
-        group = Group.objects.get(name="student")
+        group = Group.objects.get(name="user")
 
-        user = Account.objects.create(Username=MSSV, Password=Password, FirstName=FirstName, LastName=LastName, Email=Email, Group=group)
-
-        Student(user=user, MSSV=MSSV,  DateOfBirth=DateOfBirth,
-                Gender=Gender,  PhoneNumber=PhoneNumber, Address=Address, AmountOfDonation=AmountOfDonation).save()
+        Student(MSSV=MSSV, Password=Password, FirstName=FirstName, LastName=LastName, DateOfBirth=DateOfBirth,
+                Gender=Gender, Email=Email, PhoneNumber=PhoneNumber, Address=Address, AmountOfDonation=AmountOfDonation, Group=group).save()
 
         messages.success(request, 'The new user ' +
                          request.POST['MSSV'] + ' is added succesfully')
@@ -61,9 +62,8 @@ def studentSchoolReg(request):
         Grade = request.POST['Grade']
         Class = request.POST['Class']
         Achievement = request.POST['Achievement']
-        user = Student.objects.get(MSSV=MSSV)
 
-        School(Student=user, MSSV=MSSV, StartTimeShool=StartTimeShool, FinishTimeSchool=FinishTimeSchool,
+        School(MSSV=MSSV, StartTimeShool=StartTimeShool, FinishTimeSchool=FinishTimeSchool,
                Grade=Grade, Class=Class, Achievement=Achievement).save()
 
         messages.success(request, 'The new user ' +
@@ -109,7 +109,7 @@ def forgotPassEmail(request):
     if(request.method == 'POST'):
         Email = request.POST['Email']
         body = render_to_string(
-            '/Users/dongochuyen/Desktop/QLCSV/webProject/authentications/templates/sendMail.txt')
+            '/Users/dongochuyen/Desktop/web-pj/QLCSV/authentication/templates/sendMail.txt')
         send_mail('Reset your password', body, Email, [Email])
         messages.success(
             request, "Thư đã được gửi vào mail của bạn. Xin hãy kiểm tra lại hộp thư và cài đặt lại mật khẩu.")
@@ -159,16 +159,28 @@ def changePass(request):
     return render(request, 'changePass.html')
 
 
-def afterLogin(request):
+# def afterLogin(request):
     # trong db của Khue, group của admin = 1 sau khi set group staff ở admin django
     # event = Post.objects.filter(post_user__Group=1).order_by('-post_date')[:2]
     # forum = Post.objects.exclude(post_user__Group=1).order_by('-post_date')[:2]
     # return render(request, 'afterLogin.html', {"Posts": event, "Forums": forum})
-    return render(request, 'afterLogin.html')
+    # return render(request, 'afterLogin.html')
 
 
 def event_forum(request):
     event = Post.objects.filter(post_user__Group=1).order_by('-post_date')
+
+    paginator = Paginator(event, 10)
+
+    pageNumber = request.GET.get('page')
+
+    try:
+        event = paginator.page(pageNumber)
+    except PageNotAnInteger:
+        event = paginator.page(1)
+    except EmptyPage:
+        event = paginator.page(paginator.num_pages)
+
     return render(request, 'forum.html', {"Posts": event})
 
 
@@ -190,28 +202,42 @@ def search(request):
         return render(request, "search.html", {})
 
 
+temp = []
+text = ""
+
+
 def search(request):
-    print("First search")
+    global temp
+    global text
     if request.method == "POST":
-        print("Inner search")
-        searchInput = request.POST.get("searchInput")
-        students = Student.objects.filter(
-            user__Username__icontains=searchInput) or Student.objects.filter(user__FirstName__icontains=searchInput)\
-            or Student.objects.filter(school__Grade__icontains=searchInput)
-        paginator = Paginator(students, 10)
+        text = request.POST.get("searchInput")
 
-        pageNumber = request.GET.get('page')
+        temp = Student.objects.filter(
+            user__Username__icontains=text) or Student.objects.filter(user__FirstName__icontains=text)\
+            or Student.objects.filter(school__Grade__icontains=text)
 
-        try:
-            students = paginator.page(pageNumber)
-        except PageNotAnInteger:
-            students = paginator.page(1)
-        except EmptyPage:
-            students = paginator.page(paginator.num_pages)
+    students = temp
+    searchInput = text
+    paginator = Paginator(students, 10)
 
-        return render(
-            request, "search.html", {
-                "searchInput": searchInput, 'students': students}
-        )
-    else:
-        return render(request, "search.html", {})
+    pageNumber = request.GET.get('page')
+
+    try:
+        students = paginator.page(pageNumber)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
+
+    return render(
+        request, "search.html", {
+            "searchInput": searchInput, 'students': students}
+    )
+
+
+def afterLogin(request):
+    students = Student.objects.exclude(school__Achievement="Không")
+    schools = School.objects.exclude(Achievement="Không")
+    event = Post.objects.filter(post_user__Group=1).order_by('-post_date')[:4]
+    forum = Post.objects.exclude(post_user__Group=1).order_by('-post_date')[:4]
+    return render(request, 'afterLogin.html', {'students': students, 'schools': schools, "Posts": event, "Forums": forum})

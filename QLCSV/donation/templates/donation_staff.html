@@ -20,7 +20,7 @@
             <button type="submit" id="search_button" class="btn btn-outline-secondary" onclick="searchDonation()">Tìm</button>
         </div>
         <div class="col col-md-1 text-left">
-            <button type="submit" id="export_button" class="btn btn-outline-secondary">Export</button>
+            <button type="submit" id="export_button" class="btn btn-outline-secondary" onclick="window.location.href='{% url 'export_donation' %}'">Xuất file</button>
         </div>
       </div>
       <ul>

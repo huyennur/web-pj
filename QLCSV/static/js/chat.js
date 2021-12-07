@@ -3,49 +3,57 @@ var csrf = $('input[name=csrfmiddlewaretoken]').val();
 loadContacts();
 
 function loadContacts() {
-    var contacts = $('#contacts ul');
     setInterval(function() {
-        $.ajax({
-            url: "load-contacts/",
-            method: "POST",
-            data: {
-                csrfmiddlewaretoken: csrf
-            },
-            success: function(response) {
-                //console.log(contacts.children(":first").attr('id'));
-                if (contacts.children(":first").attr('id') != response.data[0]['id']) {
-                    if (contacts.find('#' + response.data[0]['id']).length != 0) {
-                        contacts.prepend(contacts.children('#' + response.data[0]['id']));
-                        changePreview(response.data[0]['id'], response.data[0]['lastMessage']);
-                    } else {
-                        var user;
-                        if (response.data[0]['user1'].username == username) {
-                            user = response.data[0]['user2'];
-                        } else {
-                            user = response.data[0]['user1'];
-                        }
-                        var rows = $('<li class="contact"\
-                            to="' + user.username + '"\
-                            id = "' + response.data[0]['id'] + '" >\
-                            <div class = "wrap" >\
-                            <span class = "contact-status online" ></span>\
-                            <img src = "' + user.image + '" alt = "" >\
-                            <div class = "meta"> \
-                            <p class = "name" >' + user.name + '</p>\
-                            <p class = "preview" >' + response.data[0]['lastMessage'] + '</p>\
-                            </div> \
-                            </div>\
-                            </li>');
-                        contacts.prepend(rows);
-                        // rows.fadeIn("slow");
-                    }
+        load_contacts_ajax("");
+    }, 1000);
+}
 
+function load_contacts_ajax(input) {
+    var contacts = $('#contacts ul');
+    $.ajax({
+        url: "load-contacts/",
+        method: "POST",
+        data: {
+            'input': input,
+            csrfmiddlewaretoken: csrf
+        },
+        success: function(response) {
+            //console.log(contacts.children(":first").attr('id'));
+            if (contacts.children(":first").attr('id') != response.data[0]['id']) {
+                if (contacts.find('#' + response.data[0]['id']).length != 0) {
+                    contacts.prepend(contacts.children('#' + response.data[0]['id']));
+                    changePreview(response.data[0]['id'], response.data[0]['lastMessage']);
+                } else {
+                    var user;
+                    if (response.data[0]['user1'].username == username) {
+                        user = response.data[0]['user2'];
+                    } else {
+                        user = response.data[0]['user1'];
+                    }
+                    var rows = $('<li class="contact"\
+                        to="' + user.username + '"\
+                        id = "' + response.data[0]['id'] + '" >\
+                        <div class = "wrap" >\
+                        <img src = "' + user.image + '" alt = "" >\
+                        <div class = "meta"> \
+                        <p class = "name1" >' + user.name + '</p>\
+                        <p class = "preview" >' + response.data[0]['lastMessage'] + '</p>\
+                        </div> \
+                        </div>\
+                        </li>');
+                    contacts.prepend(rows);
+                    // rows.fadeIn("slow");
                 }
 
+            } else {
+                var preview = $('#contacts').find('#' + response.data[0]['id']).children().children().children(".preview");
+                if (preview.text() != response.data[0]['lastMessage']) {
+                    changePreview(response.data[0]['id'], response.data[0]['lastMessage']);
+                }
             }
-        })
 
-    }, 1000);
+        }
+    })
 }
 
 function changePreview(room_id, content) {
@@ -63,7 +71,7 @@ $('.contact').on('click', function() {
 
 
     //Replace name in the header bar by clicked account
-    var name = $(this).children().children().children(".name").text();
+    var name = $(this).children().children().children(".name1").text();
     var curr_name = $('.contact-profile p');
     var newText = curr_name.text().replace(curr_name.text(), name);
     curr_name.text(newText);
@@ -130,20 +138,11 @@ function newMessage() {
     }, 250);
 };
 
+
 $('.chat_btn').on('click', function() {
-    console.log("Here!");
     var username = $(this).parents().siblings('.acc-username').text();
-    $.ajax({
-        url: '/chat/index/check-room/',
-        method: "POST",
-        data: {
-            'toUser': username,
-            csrfmiddlewaretoken: csrf
-        },
-        success: function(response) {
-            window.location.href = '/chat/index/';
-        }
-    })
+    check_room(username);
+
 });
 
 $('.submit').click(function() {
@@ -155,4 +154,26 @@ function sendMsg(event) {
         newMessage();
         return false;
     }
+}
+
+function searchContact() {
+    search = $("#search input").val();
+    if ($.trim(search) == '') {
+        return false;
+    }
+    load_contacts_ajax(search);
+}
+
+function check_room(username) {
+    $.ajax({
+        url: '/chat/index/check-room/',
+        method: "POST",
+        data: {
+            'toUser': username,
+            csrfmiddlewaretoken: csrf
+        },
+        success: function(response) {
+            window.location.href = '/chat/index/';
+        }
+    })
 }

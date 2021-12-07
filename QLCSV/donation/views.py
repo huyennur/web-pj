@@ -3,6 +3,8 @@ from django.http import HttpResponse, response
 from django.shortcuts import render
 from donation.models import Donation, Introduce, Regis_teach
 from authentication.models import Student, Account
+from donation.models import Donation
+from donation.admin import DonationResources, IntroduceResources, Regis_teachResources
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import F
@@ -93,6 +95,7 @@ def introduce(request):
         else:
             return render(request, 'introduce.html')
 
+
 def searchDonation(request):
     if request.method == "POST":
 
@@ -106,14 +109,15 @@ def searchDonation(request):
             data.append({
                 'StudentCode': student.StudentCode.MSSV,
                 'FirstName': student.FirstName,
-                'LastName' : student.LastName,
+                'LastName': student.LastName,
                 'AmountOfDonation': student.AmountOfDonation,
                 'Messages': student.Messages,
-                'DonationDate' : json.dumps(formatedDate, default=str),
-                })
+                'DonationDate': json.dumps(formatedDate, default=str),
+            })
         return HttpResponse(json.dumps({"data": data}), content_type='application/json')
     else:
         return render(request, "donation_staff.html", {})
+
 
 def searchIntroduce(request):
     if request.method == "POST":
@@ -121,19 +125,20 @@ def searchIntroduce(request):
         searchInput = request.POST["searchInputIntroduce"]
         students = Introduce.objects.filter(StudentCode__MSSV__icontains=searchInput) or Introduce.objects.filter(FirstName__icontains=searchInput)\
             or Introduce.objects.filter(LastName__icontains=searchInput) or Introduce.objects.filter(intro_title__icontains=searchInput)\
-                or Introduce.objects.filter(intro_content__icontains=searchInput)
+            or Introduce.objects.filter(intro_content__icontains=searchInput)
         data = []
         for student in students:
             data.append({
                 'StudentCode': student.StudentCode.MSSV,
                 'FirstName': student.FirstName,
-                'LastName' : student.LastName,
+                'LastName': student.LastName,
                 'intro_title': student.intro_title,
                 'intro_content': student.intro_content,
-                })
+            })
         return HttpResponse(json.dumps({"data": data}), content_type='application/json')
     else:
         return render(request, "donation_staff.html", {})
+
 
 def searchRegs(request):
     if request.method == "POST":
@@ -141,7 +146,7 @@ def searchRegs(request):
         searchInput = request.POST["searchInputRegs"]
         students = Regis_teach.objects.filter(StudentCode__MSSV__icontains=searchInput) or Regis_teach.objects.filter(FirstName__icontains=searchInput)\
             or Regis_teach.objects.filter(LastName__icontains=searchInput) or Regis_teach.objects.filter(teach_title__icontains=searchInput)\
-                or Regis_teach.objects.filter(teach_mess__icontains=searchInput)
+            or Regis_teach.objects.filter(teach_mess__icontains=searchInput)
         data = []
         for student in students:
             date = student.teach_date
@@ -149,11 +154,89 @@ def searchRegs(request):
             data.append({
                 'StudentCode': student.StudentCode.MSSV,
                 'FirstName': student.FirstName,
-                'LastName' : student.LastName,
+                'LastName': student.LastName,
                 'teach_title': student.teach_title,
                 'teach_mess': student.teach_mess,
-                'teach_date' : json.dumps(formatedDate, default=str),
-                })
+                'teach_date': json.dumps(formatedDate, default=str),
+            })
         return HttpResponse(json.dumps({"data": data}), content_type='application/json')
     else:
         return render(request, "teaching-register-staff.html", {})
+
+
+def export_donation(request):
+    if request.method == 'POST':
+        file_format = request.POST['file-format']
+        dataset = DonationResources().export()
+        if file_format == 'CSV':
+            response = HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+        elif file_format == 'XLSX':
+            response = HttpResponse(
+                dataset.xlsx, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+            return response
+        elif file_format == 'XLS':
+            response = HttpResponse(
+                dataset.xls, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+            return response
+        elif file_format == 'JSON':
+            response = HttpResponse(
+                dataset.json, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+            return response
+
+    return render(request, 'export_donation.html')
+
+
+def export_introduce(request):
+    if request.method == 'POST':
+        file_format = request.POST['file-format']
+        dataset = IntroduceResources().export()
+        if file_format == 'CSV':
+            response = HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+        elif file_format == 'XLSX':
+            response = HttpResponse(
+                dataset.xlsx, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+            return response
+        elif file_format == 'XLS':
+            response = HttpResponse(
+                dataset.xls, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+            return response
+        elif file_format == 'JSON':
+            response = HttpResponse(
+                dataset.json, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+            return response
+
+    return render(request, 'export_introduce.html')
+
+
+def export_teachingReg(request):
+    if request.method == 'POST':
+        file_format = request.POST['file-format']
+        dataset = Regis_teachResources().export()
+        if file_format == 'CSV':
+            response = HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+        elif file_format == 'XLSX':
+            response = HttpResponse(
+                dataset.xlsx, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+            return response
+        elif file_format == 'XLS':
+            response = HttpResponse(
+                dataset.xls, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+            return response
+        elif file_format == 'JSON':
+            response = HttpResponse(
+                dataset.json, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+            return response
+
+    return render(request, 'export_teachingReg.html')
