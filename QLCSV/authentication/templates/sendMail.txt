@@ -1,5 +1,5 @@
 Hãy ấn vào đường link để thay đổi mật khẩu của bạn.
 
-http://127.0.0.1:8000/authentications/forgotPass/
+http://127.0.0.1:8000/authentication/forgotPass/
 
 Từ Website Quản lí cựu sinh viên UET.

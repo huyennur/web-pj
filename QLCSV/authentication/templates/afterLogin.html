@@ -64,7 +64,7 @@
           <div class="title col-lg-6">
             <a href="{% url 'discussion' pk=forum.id %}"><h6>{{forum.post_title}}</h6></a>
             <i class="bi bi-calendar-event"></i>
-            <span>{{post.post_date|date:"G:i d/m/Y"}}</span>
+            <span>{{forum.post_date|date:"G:i d/m/Y"}}</span>
           </div>
         </div>
         {% endfor %}
@@ -77,142 +77,40 @@
     </div>
 
     <div class="container row justify-content-center">
-      <div class="col-lg-12 heading">
-        <a href=""><h5>Giới thiệu việc làm</h5></a>
-      </div>
-
-      <div class="row justify-content-center job-content">
-        <div class="block box">
-          <div class="icon">
-            <i class="bi bi-person-workspace"></i>
-          </div>
-          <div class="job">
-            <a href=""><h6>Công việc 1</h6></a>
-          </div>
-          <div class="city">
-            Công ty X
-          </div>
-          <div class="time">
-            Deadline: 20-12-2021
-          </div>
-        </div>
-
-        <div class="block box">
-          <div class="icon">
-            <i class="bi bi-person-workspace"></i>
-          </div>
-          <div class="job">
-            <a href=""><h6>Công việc 2</h6> </a>
-          </div>
-          <div class="city">
-            Công ty Y
-          </div>
-          <div class="time">
-            Deadline: 01-01-2022
-          </div>
-        </div>
-
-        <div class="block box">
-          <div class="icon">
-            <i class="bi bi-person-workspace"></i>
-          </div>
-          <div class="job">
-            <a href=""><h6>Công việc 3</h6></a>
-          </div>
-          <div class="city">
-            Công ty Z
-          </div>
-          <div class="time">
-            Deadline: 05-01-2022
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container row justify-content-center">
       <div class="col-lg-12 heading1">
         <a href=""><h5>Cựu sinh viên nổi bật</h5></a>
       </div>
 
       <div id="carouselExampleIndicators" class="carousel slide alumni" data-ride="carousel">
-        <ol class="carousel-indicators alumni-indicator">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        </ol>
+        
+
+        
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="row">
-                <div class="col text-center">
-                    <img class="img-fluid" src="{% static 'img/alumni-man.png' %}" alt="Alumni 1"/>
+              {% for school in schools %} 
+                <div class="col text-center"> 
+                    <img class="img-fluid" src="{{school.Student.user.profile.image.url}}" alt="Alumni 1"/>
                     <div class="name">
-                      <a href=""><h6>Anh Hoàng Việt Anh</h6></a>
+                      <a href="{% url 'profile' school.Student.user.Username %}"><h6>{{ school.Student.user.FirstName }} {{ school.Student.user.LastName }}</h6></a>
                     </div>
                     <div class="work">
-                      Giám Đốc công ty X<br> Cựu sinh viên khóa QH-2011
+                      {{ school.Achievement }} <br> {{ school.Grade }}
                     </div>
                 </div>
-
-                <div class="col text-center">
-                    <img class="img-fluid" src="{% static 'img/alumni-man.png' %}" alt="Alumni 2"/>
-                    <div class="name">
-                      <a href=""><h6>Anh Nguyễn Mai Quốc Khánh</h6></a>
-                    </div>
-                    <div class="work">
-                      Business analysist <br> Cựu sinh viên khóa QH-2011
-                    </div>
-                </div>
-
-                <div class="col text-center">
-                    <img class="img-fluid" src="{% static 'img/alumni-man.png' %}" alt="Alumni 3"/>
-                    <div class="name">
-                      <a href=""><h6>Anh Lê Hoàng Anh</h6></a>
-                    </div>
-                    <div class="work">
-                      Phó giám đốc công ty Y <br> Cựu sinh viên khóa QH-2011
-                    </div>
-                </div>
-
+                {% endfor %}
             </div>
-         </div>
-
-        <div class="carousel-item">
-          <div class="row">
-              <div class="col text-center">
-                  <img class="img-fluid" src="{% static 'img/alumni-woman.png' %}" alt="Alumni 4"/>
-                  <div class="name">
-                    <a href=""><h6>Chị Nguyễn Nhật Hạ</h6></a>
-                  </div>
-                  <div class="work">
-                    AI researcher <br> Cựu sinh viên khóa QH-2011
-                  </div>
-              </div>
-
-              <div class="col text-center">
-                  <img class="img-fluid" src="{% static 'img/alumni-man.png' %}" alt="Alumni 5"/>
-                  <div class="name">
-                    <a href=""><h6>Anh Phạm Quốc Bảo</h6></a>
-                  </div>
-                  <div class="work">
-                    CEO công ty M <br> Cựu sinh viên khóa QH-2011
-                  </div>
-              </div>
-
-              <div class="col text-center">
-                  <img class="img-fluid" src="{% static 'img/alumni-woman.png' %}" alt="Alumni 6"/>
-                  <div class="name">
-                    <a href=""><h6>Chị Nguyễn Mai Linh</h6></a>
-                  </div>
-                  <div class="work">
-                    Computer Engineer<br> Cựu sinh viên khóa QH-2011
-                  </div>
-              </div>
           </div>
         </div>
-        
-      </div>
-    </div>
+       
 
     <div class="container row justify-content-center container1">
+      <ol class="carousel-indicators alumni-indicator">
+          <br>
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        </ol>
+  
       <div class="col-lg-12 heading2">
         <a href=""><h5>Album ảnh sự kiện</h5></a>
       </div>

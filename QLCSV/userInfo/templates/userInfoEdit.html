@@ -4,20 +4,22 @@
 {%block title %}Chỉnh sửa trang cá nhân {% endblock %} 
 
 {% block content%}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data" action="">
+  {% csrf_token %}
 <div class="container">
   <div class="heading">
       <h4>Trang cá nhân</h4>
   </div>
 
   <div class="line"></div>
+  <div class="form" action="">
 
-  <div class="form" method="POST" enctype="multipart/form-data" action="">
-    {% csrf_token %}
       <div class="form-row">
           <div class="form-group col-3">
             <img src="{{curr_user.profile.image.url}}" class="profile-img" name="useravatar"/>
             <p><input type="file" accept="image/*" name="avatar" class="pt-2" /></p>
+            <!-- <button onclick="document.getElementById('getFile').click()">Chọn ảnh</button>
+            <input type='file' accept="image/*" name="avatar" class="pt-2" id="getFile"  style="display:none"> -->
           </div>
     
           <div class="form-group col-9 row">
@@ -69,14 +71,14 @@
             <label for="address-input">Địa chỉ</label>
             <input type="text" class="form-control" id="address-input" name="Address" value="{{ curr_user.student.Address }}"/>
           </div>
-          <div class="form-group col-2">
+          <!-- <div class="form-group col-2">
             <label for="job-status-input">Thành tích</label>
-            {% if curr_user.student.school.Achievement %}
-            <input type="text" class="form-control" id="achievement-input" name="Achievement" value="{{ curr_user.student.school.Achievement }}"/>
+            {% if curr_user_school.Achievement or curr_user_school.Achievement != "Không" %}
+            <input type="text" class="form-control" id="achievement-input" name="Achievement" value="{{ curr_user_school.Achievement }}"/>
             {% else %}
             <input type="text" class="form-control" id="achievement-input" name="Achievement" value="Không"/>
             {% endif %}
-          </div>
+          </div> -->
           
       </div>
 
@@ -101,11 +103,27 @@
             <input type="text" class="form-control" id="position-input" name="JobName" value="{{ curr_user_job.JobName }}"/>
           </div>
           <div class="form-group col-3">
+            <label for="Date-of-birth-input">Đặc điểm doanh nghiệp</label>
+            <input type="text" class="form-control" name="Feature" value="{{ curr_user_job.Feature }}"/>
+          </div>
+          <div class="form-group col-3">
             <label for="Date-of-birth-input">Thời gian bắt đầu công việc</label>
             <input type="date" class="form-control" name="TimeToStart" value="{{ curr_user_job.TimeToStart|date:'Y-m-d' }}"/>
           </div>
-    </div>
+      </div>
     {% endif %}
+    <h3><i>Chú ý!</i></h3>
+            <p><i>Nơi làm việc viết đầy đủ dấu.<br>
+            Đặc điểm của doanh nghiệp chọn một trong các lựa chọn sau: 
+              <ul><i>
+                <li>DN NN: doanh nghiệp nước ngoài</li>
+                <li>TKN: tự khởi nghiệp</li>
+                <li>DN TN: doanh nghiệp trong nước</li>
+                <li>Nước ngoài: làm việc ở nước ngoài</li>
+                <li>Nhà nước: làm trong doanh nghiệp nhà nước</li>
+                <li>Không: chưa có việc làm</li></i>
+              </ul></i>
+            </p>
       <div class="form-row">
         <div class="form-group col-6">
             <input type="submit" class="btn-custom" name="save" value="Lưu" />

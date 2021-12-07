@@ -1,12 +1,27 @@
+#drop-menu {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+.bi-hand-thumbs-up-fill {
+  color: gray;
+}
+
 .post {
   width: 45rem;
   box-shadow: var(--box-shadow);
   padding: 1rem 2rem;
   border-radius: 5px;
-  margin: 3rem 0 0 0;
+  margin:3rem 0 0 0;
 }
 
-.post-content h4 a {
+.post-content h4 a{
   color: var(--text2);
   text-decoration: none;
 }
@@ -21,37 +36,27 @@
   margin-right: 1rem;
 }
 
-.image {
-  padding: 1rem 0;
+.date span a{
+  color: var(--text2);
+  text-decoration-color: var(--text2);
+  font-size: 0.8rem;
 }
 
 .post-header {
   padding-bottom: 1.5rem;
 }
 
-.post-info {
+.image {
+  padding: 1rem 0;
+}
+
+.post-info{
   padding-bottom: 1rem;
 }
 
 .post-img {
   width: 30rem;
   height: 20rem;
-}
-
-.user-name span a {
-  color: var(--text2);
-  text-decoration-color: var(--text2);
-  font-weight: bold;
-}
-
-.date span a {
-  color: var(--text2);
-  text-decoration-color: var(--text2);
-  font-size: 0.8rem;
-}
-
-i:hover {
-  cursor: pointer;
 }
 
 .comment {
@@ -66,10 +71,10 @@ i:hover {
 
 .reader-comment {
   box-shadow: var(--box-shadow);
-  border-radius: 5px;
+  border-radius: 5px; 
   box-sizing: border-box;
   width: 45rem;
-  padding: 2rem 1rem;
+  padding: 2rem 3rem;
   position: relative;
   top: 3rem;
   margin-bottom: 20rem;
@@ -79,22 +84,11 @@ i:hover {
   border-radius: 10px;
   border: none;
   outline: none;
-  border: 1px solid gray;
+  border: 1px solid #C4C4C4;
   width: 35rem;
   height: 3rem;
   margin-left: 1rem;
   padding-left: 1rem;
-}
-
-.bi-hand-thumbs-up-fill {
-  color: gray;
-}
-
-#drop-menu {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  background: none;
 }
 
 .user-comment img {
@@ -104,13 +98,67 @@ i:hover {
 .user-comment-avatar {
   width: 2rem;
   height: 2rem;
-  background: #c4c4c4;
+  background:#C4C4C4;
   box-shadow: var(--box-shadow);
-  border-radius: 1.5rem;
+  border-radius: 1.5rem;   
 }
 
 .reader1 {
-  height: 3rem;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #C4C4C4;
+}
+
+.user-name a {
+  color: var(--text2);
+  text-decoration-color: var(--text2);
+  font-weight: bold;
+}
+
+.user-name a:hover {
+  text-decoration-color: var(--text2);
+  color: var(--text2);
+}
+
+.date-cmt a {
+  font-size: 0.8rem;
+  color: var(--text2);
+  text-decoration: none;
+  font-style: italic;
+}
+
+.date-cmt a:hover {
+  text-decoration: none;
+  color: var(--text2);
+}
+
+.preview {
+  width: 15rem;
+}
+
+.btn-del {
+  font-size: 0.9rem;
+  color: var(--text2);
+  border: none;
+  outline: none;
+  background-color: #FFFFFF;
+}
+
+.btn-del:focus {
+  border: none;
+  outline: none;
+  background-color: none;
+}
+
+.btn-del:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text2);
+}
+
+.content img {
+  height: 10rem;
+  width: 15rem;
 }
 
 .start-topic a {
@@ -120,5 +168,5 @@ i:hover {
 .start-topic {
   position: absolute;
   top: 4rem;
-  left: 50rem;
+  left: 50rem;  
 }

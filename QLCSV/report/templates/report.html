@@ -18,7 +18,7 @@
       {% csrf_token %}
       <div class="form-group">
         <label for="name-input">Họ tên</label>
-        <input type="text" class="form-control" id="name-input" name="Name">  
+        <input type="text" class="form-control" id="name-input" name="Name" value="{{ curr_user.FirstName }} {{curr_user.LastName }}">  
       </div>
   
       <div class="form-group">
@@ -46,10 +46,9 @@
       
       <div class="d-flex justify-content-end">
         <!-- Button trigger modal -->
-        <button type="submit" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <button type="button" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           Xác nhận
         </button>
-        <br>
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -59,18 +58,17 @@
                 </button>
               </div>
               <div class="modal-body">
-
+                Bạn đã chắc chắn với thông tin đã điền chưa?
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn-custom" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn-custom" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn-custom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xác nhận</button>
               </div>
             </div>
           </div>
-        </div>        
-      </div>    
-      {% if messages %} {% for msg in messages %}
-        <b>{{msg}}</b>
-        {% endfor %} {% endif %}
+        </div> 
+      </div> 
+      
     </form>
 
     <!--information-->

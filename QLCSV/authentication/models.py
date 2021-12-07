@@ -42,9 +42,9 @@ class Student(models.Model):
     MSSV = models.CharField(max_length=150)
     Gender = models.CharField(max_length=150)
     DateOfBirth = models.DateField()
-    PhoneNumber = models.CharField(max_length=150)
+    PhoneNumber = models.CharField(max_length=150, null=True, blank=True)
     Address = models.CharField(max_length=150)
-    AmountOfDonation = models.IntegerField()
+    AmountOfDonation = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.MSSV)
@@ -58,7 +58,7 @@ class School(models.Model):
     FinishTimeSchool = models.DateField()
     Grade = models.CharField(max_length=150)
     Class = models.CharField(max_length=150)
-    Achievement = models.CharField(max_length=500)
+    Achievement = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return str(self.MSSV)
@@ -70,11 +70,11 @@ class Job(models.Model):
     JobStatus = models.CharField(max_length=150)
     JobName = models.CharField(max_length=300)
     JobAddress = models.CharField(max_length=300)
-    TimeToStart = models.DateField()
+    TimeToStart = models.DateField(null=True, blank=True)
     Feature = models.CharField(max_length=150)
 
     def __str__(self):
-        return str(self.MSSV)
+        return self.MSSV
 
 
 class GPA(models.Model):

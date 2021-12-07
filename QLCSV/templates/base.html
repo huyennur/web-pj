@@ -11,13 +11,16 @@
     {% endblock %}
 
     <!--link bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 
+    
     <title>{% block title %}{% endblock %}</title> 
 
     <!-- font -->
@@ -43,54 +46,94 @@
           <form class="d-flex search-field" method=POST action={% url 'search' %}>
             {% csrf_token %}
             <input class="" type="text" placeholder="Tìm kiếm" name="searchInput" id="searchInput"/>
-            <a href="" class="nav-link">
+            <!-- <a href="" class="nav-link">
               <i class="bi bi-search"></i>
-            </a>
+            </a> -->
           </form>
         </div>
 
         <!--nav item contain mes, noti, user-->
         <ul class="navbar-nav align-items-center">
           <!--messages-->
-          <li class="nav-item">
-            <a href="" class="nav-link">
+          <li class="nav-item noti-appear dropdown">
+            <a href="{% url 'set-seen-msg' %}" class="nav-link">
               <i class="bi bi-chat-dots-fill"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                0
-              </span>
-            </a>
-          </li>
-
-          <!--notifications-->
-          <li class="nav-item noti-appear">
-            <a href="" class="nav-link">
-              <i class="bi bi-bell-fill"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="amountOfMessages">
                 0
               </span>
             </a>
             <div class="nav-noti">
               <header class="header-noti">
-                <span>Thông báo mới nhận</span>
+                <span>Tin nhắn mới</span>
               </header>
-              <ul class="noti-list">
-                <li class="noti-item">
-                  <a href="">
-                      X đã like bài viết Job hiring in Hanoi của bạn
-                  </a>
-                </li>
-                <li class="noti-item">
-                  <a href="">
-                      X đã like bài viết Job hiring in Hanoi của bạn
-                  </a>
-                </li>
+              <ul class="noti-list" id="messagesNotification">
+                {% for notif in notifs reversed%}
+                  <li class="noti-item" id="room_{{notif.room.id}}" sender="{{notif.sender.Username}}">
+                    <a href="">
+                    <div class="row">
+                        <div class="form-group col-1"></div>
+                        <img src="{{notif.sender.profile.image.url}}" height="50px" width="50px" alt="" >
+                        <div class="meta">
+                        <p>{{notif.sender.FirstName}} {{notif.sender.LastName}}</p>
+                        <p class="previewNotif">{{notif.room.lastMessage}}</p>
+                        </div>
+                    </div>
+                    </a>
+                  </li>
+                {% endfor %}
               </ul>
               <footer class="footer-noti">
-                <a href="" class="footer-btn">Xem tất cả</a>
+                <a href="{% url 'index' %}" class="footer-btn">Xem tất cả</a>
+              </footer>
+            </div>
+          </li>
+
+          <!--notifications-->
+          <li class="nav-item noti-appear">
+            <a href="{% url 'notifi' %}" class="nav-link">
+              <i class="bi bi-bell-fill"></i>
+              <!--<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+              </span>-->
+            </a>
+            <div class="nav-noti">
+              <header class="header-noti">
+                <span>Thông báo gần nhất</span>
+              </header>
+              <ul class="noti-list">
+                {% if Notices %}
+                {% for notice in Notices %}
+                <li class="noti-item">
+                  {% if notice.type == 'Admin' %}
+                    
+                    <a href="{% url 'discussion' pk=notice.post.id %}">
+                      [{{notice.date|date:"G:i d/m/Y"}}][Từ Quản trị viên] {{notice.post.post_title}}
+                    </a>
+                    
+                  {% elif notice.type == 'Forum' %}
+                  <a href="{% url 'discussion' pk=notice.post.id %}">
+                    [{{notice.date|date:"G:i d/m/Y"}}][Từ Diễn Đàn] {{notice.cmt.cmt_user.FirstName}} {{notice.cmt.cmt_user.LastName}} đã bình luận về bài viết của bạn.  
+                  </a>
+                  {% else %}
+                  <a href="{% url 'g_discussion' pk1=notice.g_post.id pk2=notice.g_post.groupID.id %}">
+                    [{{notice.date|date:"G:i d/m/Y"}}][Từ nhóm {{notice.type}}] {{notice.g_cmt.g_cmt_user.FirstName}} {{notice.g_cmt.g_cmt_user.LastName}} đã bình luận về bài viết của bạn.  
+                  </a>
+                  {% endif %}
+                </li>
+                {% endfor %}
+                {% else %}
+                <span>Chưa có thông báo nào cả!</span>
+                {% endif %}
+
+              </ul>
+              
+              <footer class="footer-noti">
+                <a href="{% url 'notifi' %}" class="footer-btn">Xem tất cả</a>
               </footer>
             </div>
 
           </li>
+          
 
           <!--user name-->
           <li class="nav-item">
@@ -105,8 +148,6 @@
               <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
               <div class="dropdown-menu dropdown-menu-right">
                 {% if request.session.username %}
-                Xin chào {{request.session.username}}
-                <hr>
             
                   <a class="dropdown-item" href="{% url 'profile' request.session.username %}">Trang cá nhân</a>
                   <a class="dropdown-item" href="{% url 'changePass' %}">Đổi mật khẩu</a>
@@ -120,7 +161,7 @@
           <!--user avatar-->
           <li class="nav-item">
             <a href="{% url 'profile' request.session.username %}" class="nav-link">
-              <img src="{{ curr_user.profile.image.url }}" alt="user avatar" />
+              <img src="{{ curr_user.profile.image.url }}" alt="user avatar" weight=50px height=50px/>
             </a>
           </li>
         </ul>
@@ -189,13 +230,15 @@
     </div>
     {% endblock %}
     {% block content %} {% endblock %}
-    <script>
-      let btn = document.querySelector("#btn");
-      let contain = document.querySelector("body");
-
-      btn.onclick = function () {
-        contain.classList.toggle("active");
-      };
-    </script>
   </body>
+  {% block js %}{% endblock %}
+  <script src="{% static "js/base.js" %}"></script>
+  <script>
+    let btn = document.querySelector("#btn");
+    let contain = document.querySelector("body");
+
+    btn.onclick = function () {
+      contain.classList.toggle("active");
+    };
+  </script>
 </html>

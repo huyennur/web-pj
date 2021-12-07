@@ -9,8 +9,8 @@ def jobStatus(request):
     grade = School.objects.values('Grade').distinct()
     cursor = connection.cursor()
     cursor.execute(
-        'SELECT `Major`, COUNT(IF(`JobStatus` = "Đã có việc làm", "Đã có việc làm", NULL)) AS `Đã có việc làm`, COUNT(IF(`JobStatus` = "Chưa có việc làm", "Chưa có việc làm", NULL)) AS `Chưa có việc làm`, COUNT(IF(`JobStatus` = "Tiếp tục học", "Tiếp tục học", NULL)) AS `Tiếp tục học` FROM `authentication_job` GROUP BY `Major`')
-    jobs = [['Major', 'Đã có việc làm', 'Chưa có việc làm', 'Tiếp tục học']]
+        'SELECT `Major` AS `Ngành`, COUNT(IF(`JobStatus` = "Đã có việc làm", "Đã có việc làm", NULL)) AS `Đã có việc làm`, COUNT(IF(`JobStatus` = "Chưa có việc làm", "Chưa có việc làm", NULL)) AS `Chưa có việc làm`, COUNT(IF(`JobStatus` = "Tiếp tục học", "Tiếp tục học", NULL)) AS `Tiếp tục học` FROM `authentication_job` GROUP BY `Major`')
+    jobs = [['Ngành', 'Đã có việc làm', 'Chưa có việc làm', 'Tiếp tục học']]
     for x in cursor:
         Major = str(x[0])
         Employed = int(x[1])
@@ -29,8 +29,8 @@ def jobStatus_k(request):
         result = request.POST['JobSelected']
         cursor = connection.cursor()
         cursor.execute(
-            'SELECT J.`Major`, COUNT(IF(J.`JobStatus`="Đã có việc làm", "Đã có việc làm", NULL)) AS `Employed`, COUNT(IF(J.`JobStatus`="Chưa có việc làm", "Chưa có việc làm", NULL)) AS `Unemployed`, COUNT(IF(J.`JobStatus`="Tiếp tục học", "Tiếp tục học", NULL)) AS `Studying` FROM `authentication_job` AS J, `authentication_school` AS G WHERE G.`Grade`=%s AND J.`MSSV`=G.`MSSV` GROUP BY J.`Major`', [result])
-        jobs = [['Major', 'Đã có việc làm', 'Chưa có việc làm', 'Tiếp tục học']]
+            'SELECT J.`Major` AS `Ngành`, COUNT(IF(J.`JobStatus`="Đã có việc làm", "Đã có việc làm", NULL)) AS `Employed`, COUNT(IF(J.`JobStatus`="Chưa có việc làm", "Chưa có việc làm", NULL)) AS `Unemployed`, COUNT(IF(J.`JobStatus`="Tiếp tục học", "Tiếp tục học", NULL)) AS `Studying` FROM `authentication_job` AS J, `authentication_school` AS G WHERE G.`Grade`=%s AND J.`MSSV`=G.`MSSV` GROUP BY J.`Major`', [result])
+        jobs = [['Ngành', 'Đã có việc làm', 'Chưa có việc làm', 'Tiếp tục học']]
         for x in cursor:
             Major = str(x[0])
             Employed = int(x[1])

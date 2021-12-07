@@ -20,6 +20,11 @@ class StudentManagement(admin.ModelAdmin):
               'PhoneNumber', 'Address', 'AmountOfDonation']
 
 
+class StudentsManagement(admin.ModelAdmin):
+    fields = ['MSSV', 'DateOfBirth', 'Gender',
+              'PhoneNumber', 'Address', 'AmountOfDonation']
+
+
 class SchoolManagement(admin.ModelAdmin):
     fields = ['MSSV', 'StartTimeShool', 'FinishTimeSchool',
               'Grade', 'Class', 'Achievement']
@@ -49,12 +54,12 @@ class AddressManagement(admin.ModelAdmin):
 
 class AccountResource(resources.ModelResource):
     class Meta:
-        models = Account
+        model = Account
 
 
 class StudentResource(resources.ModelResource):
     class Meta:
-        models = Student
+        model = Student
 
 
 class StudentsResource(resources.ModelResource):
@@ -65,28 +70,28 @@ class StudentsResource(resources.ModelResource):
 
 class SchoolResource(resources.ModelResource):
     class Meta:
-        models = School
+        model = School
 
 
 class JobResource(resources.ModelResource):
     class Meta:
-        models = Job
-        fields = ('id', 'MSSV', 'JobName', )
+        model = Job
+        field = ('id', 'MSSV', 'JobName', )
 
 
 class GPAResource(resources.ModelResource):
     class Meta:
-        models = GPA
+        model = GPA
 
 
 class AddressResource(resources.ModelResource):
     class Meta:
-        models = Address
+        model = Address
 
 
 class SalaryResource(resources.ModelResource):
     class Meta:
-        models = Salary
+        model = Salary
         fields = ('MSSV', 'Salary', )
 
 

@@ -1,7 +1,9 @@
 from django.contrib import messages
 from report.models import Report
 from django.shortcuts import render
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
+from authentication.models import Account
+from report.admin import ReportResource
 
 
 def report(request):
@@ -14,4 +16,35 @@ def report(request):
             request, 'Báo cáo thành công! Cảm ơn bạn đã đóng góp ý kiến. Chúng tôi sẽ phản hồi nhanh nhất có thể!')
         return HttpResponseRedirect(request.path)
     else:
-        return render(request, 'report.html')
+        user = Account.objects.get(Username=request.session['username'])
+        reports = Report.objects.all()
+        if (user.Group.name == 'staff'):
+            return render(request, 'report_staff.html', {'reports': reports})
+        else:
+            return render(request, 'report.html')
+
+
+def export_report(request):
+    if request.method == 'POST':
+        file_format = request.POST['file-format']
+        dataset = ReportResource().export()
+        if file_format == 'CSV':
+            response = HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+        elif file_format == 'XLSX':
+            response = HttpResponse(
+                dataset.xlsx, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+            return response
+        elif file_format == 'XLS':
+            response = HttpResponse(
+                dataset.xls, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+            return response
+        elif file_format == 'JSON':
+            response = HttpResponse(
+                dataset.json, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+            return response
+
+    return render(request, 'export_report.html')

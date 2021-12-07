@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/afterlogin.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/chat.css' %}" />
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
+{% endblock %}
+{% block title %}Trò chuyện{% endblock %}
+{% block content %}
+
+    <div id="frame">
+      <div id="sidepanel">
+        <div id="profile">
+          <div class="wrap">
+            <img id="profile-img" src="{{ curr_user.profile.image.url }}" class="online" alt="" />
+            <p>{{curr_user.FirstName}} {{curr_user.LastName}}</p>
+            <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div id="search">
+          <!-- <label for=""><i class="bi bi-search" aria-hidden="true"></i></label> -->
+          <input type="text" placeholder="Danh sách trò chuyện" onkeypress="searchContact()" id="search-contact-input"/>
+          <!-- <label id="search-contact-input">Danh sách trò chuyện</label> -->
+        </div>
+        <div id="contacts">
+        <ul>
+        {% if rooms%}
+        {% for room in rooms %}
+         <li class="contact" 
+         to="{% if room.user1.Username == curr_user.Username %} {{room.user2.Username}} {% else %} {{room.user1.Username}} {% endif %}" 
+         id="{{ room.id }}"> 
+          <div class="wrap">
+            <!-- <span class="contact-status online"></span> -->
+            {%if room.user1.Username == curr_user.Username %}
+              <img src="{{ room.user2.profile.image.url }}" alt="" />
+              <div class="meta">
+                <p class="name1">{{ room.user2.FirstName}} {{room.user2.LastName}}</p>
+                <p class="preview">{{ room.lastMessage }}</p>
+              </div>
+            {% else %}
+              <img src="{{ room.user1.profile.image.url }}" alt="" />
+              <div class="meta">
+                <p class="name1">{{ room.user1.FirstName}} {{room.user1.LastName}}</p>
+                <p class="preview">{{ room.lastMessage }}</p>
+              </div>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+        {% endif %}
+        </ul>
+          
+        </div>
+      </div>
+      <div class="content">
+        <div class="contact-profile">
+          {% if rooms.0%}
+          {% if rooms.0.user1.Username == curr_user.Username %}
+          <img src="{{rooms.0.user2.profile.image.url }}" alt="" />
+          <p id="header-contact-name">{{rooms.0.user2.FirstName}} {{rooms.0.user2.LastName}}</p>
+          {% else %}
+          <img src="{{rooms.0.user1.profile.image.url }}" alt="" />
+          <p id="header-contact-name">{{rooms.0.user1.FirstName}} {{rooms.0.user1.LastName}}</p>
+          {% endif%}
+          {% endif %}
+          <!-- <div class="social-media">
+            <i class="bi bi-facebook" aria-hidden="true"></i>
+            <i class="bi bi-twitter" aria-hidden="true"></i>
+            <i class="bi bi-instagram" aria-hidden="true"></i>
+          </div> -->
+        </div>
+        <div class="messages">
+          <ul id="chat-log">
+            {% for msg in messages %}
+            {% if curr_user.Username == msg.user.Username%}
+            <li class="sent">
+              <img src="{{msg.user.profile.image.url}}" alt="" />
+              <p>{{msg.content}}</p>
+            </li>
+            {% else %}
+            <li class="replies">
+              <img src="{{msg.user.profile.image.url}}" alt="" />
+              <p>{{msg.content}}</p>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="message-input">
+          <div class="wrap">
+          <input id="chat-message-input" type="text" placeholder="Viết tin nhắn..." onkeypress="sendMsg(event)"/>
+          <!-- <i class="bi bi-paperclip attachment" aria-hidden="true"></i> -->
+          <button id="chat-message-submit" class="submit"><i class="bi bi-reply-fill" aria-hidden="true"></i></button>
+          </div>
+      </div>
+    </div>
+    </div> 
+{% endblock %}
+{% block js %}
+<script src="{% static "js/chat.js" %}"></script>
+<script>
+const username = {{username}};
+const imageurl = {{image}};
+var room_id = {{rooms.0.id}};
+
+</script>
+{% endblock %}

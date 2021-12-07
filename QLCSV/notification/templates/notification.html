@@ -1,0 +1,83 @@
+{% extends "base.html"%} 
+{% load static %} 
+{% block css%}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock css%} 
+{% block title %}Thông báo{% endblock %} 
+{% block content %}
+    <div class="container">
+        <div class="heading">
+          <h4>Thông báo</h4>
+        </div>
+  
+        <div class="line"></div>
+  
+        <div class="content">
+            {% if Noticess %}
+            {% for notice in Noticess %}
+            <li class="noti-item">
+              {% if notice.type == 'Admin' %}
+                
+                <a href="{% url 'discussion' pk=notice.post.id %}">
+                  [{{notice.date|date:"G:i d/m/Y"}}][Từ Quản trị viên] {{notice.post.post_title}}
+                </a>
+                
+              {% elif notice.type == 'Forum' %}
+              <a href="{% url 'discussion' pk=notice.post.id %}">
+                [{{notice.date|date:"G:i d/m/Y"}}][Từ Diễn Đàn] {{notice.cmt.cmt_user.FirstName}} {{notice.cmt.cmt_user.LastName}} đã bình luận về bài viết của bạn.  
+              </a>
+              {% else %}
+              <a href="{% url 'g_discussion' pk1=notice.g_post.id pk2=notice.g_post.groupID.id %}">
+                [{{notice.date|date:"G:i d/m/Y"}}][Từ nhóm {{notice.type}}] {{notice.g_cmt.g_cmt_user.FirstName}} {{notice.g_cmt.g_cmt_user.LastName}} đã bình luận về bài viết của bạn.  
+              </a>
+              {% endif %}
+            </li>
+            {% endfor %}
+
+            <br>
+            <nav aria-label="Page navigation" class="forum-pagination">
+                <ul class="pagination justify-content-center">
+            
+                    {% if Noticess.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ Noticess.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><a class="page-link">&laquo;</a></li>
+                    {% endif %}
+            
+                    {% if Noticess.number > 5 %}
+                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                    {% endif %}
+            
+                    {% for i in Noticess.paginator.page_range %}
+                    {% if i > Noticess.number|add:"-5" %}
+                        {% if i < Noticess.number|add:"5" %}
+                            {% if Noticess.number == i %}
+                    <li class="page-item active"><a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+                            {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% endfor %}
+            
+                    {% if Noticess.number < Noticess.paginator.num_pages|add:"-5" %}
+                    <li class="page-item"><a class="page-link" href="?page={{ Noticess.paginator.num_pages }}">{{ Noticess.paginator.num_pages }}</a></li>
+                    {% endif %}
+            
+                    {% if Noticess.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ Noticess.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><a class="page-link">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            {% else %}
+            <span>Chưa có thông báo nào cả!</span>
+            {% endif %}
+        </div>        
+        
+        
+    </div>
+{% endblock %}

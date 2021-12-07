@@ -21,25 +21,25 @@
         <!-- post header-->
         <div class="post-header row">
           <div class="col-lg-1">
-            <a href="{% url 'profile' post.g_post_user.MSSV %}">
+            <a href="{% url 'profile' post.g_post_user.Username %}">
               <img src="{{post.g_post_user.profile.image.url}}" alt="" id="useravatar">
             </a>
           </div>
 
           <div class="col-lg-8">
             <div class="user-name">
-              <span><a href="{% url 'profile' post.g_post_user.MSSV %}">{{post.g_post_user.FirstName}} {{post.g_post_user.LastName}}</a></span>
+              <span><a href="{% url 'profile' post.g_post_user.Username %}">{{post.g_post_user.FirstName}} {{post.g_post_user.LastName}}</a></span>
             </div>
 
             <div class="date">
-              <span><a href="">{{post.g_post_date|date:"h:m d/m/Y"}}</a></span>
+              <span><a href="">{{post.g_post_date|date:"G:i d/m/Y"}}</a></span>
             </div>  
           </div>
 
           <!--Admin chỉnh sửa ở đây, nếu là admin hiện sửa xóa ở all bài viết-->
-          {% if curr_user.MSSV == post.g_post_user.MSSV or curr_user.Group.name == 'staff' %}
+          {% if curr_user.Username == post.g_post_user.Username or curr_user.Group.name == 'staff' %}
           <div class="btn-cmt col-3 pl-5">
-            {% if curr_user.Group.name != 'staff' or curr_user.MSSV == post.g_post_user.MSSV %}
+            {% if curr_user.Group.name != 'staff' or curr_user.Username == post.g_post_user.Username %}
             <a href="{% url 'g_editpost' pk1=post.id pk2=Group.id %}" class="btn-del">
               Sửa
             </a>

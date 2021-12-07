@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from connection.models import Group, Group_post, Group_comment
-from authentication.models import Student
+from authentication.models import Account
 from django.contrib import messages
 from django.db.models import F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from notification.models import Notification
 
 # Create your views here.
 
@@ -48,15 +49,22 @@ def g_discussion(request, pk1, pk2):
     post = Group_post.objects.get(id=pk1)
     if (request.method == "POST"):
         cmt_content = request.POST['g_newcmt']
-        cmt_user = Student.objects.get(MSSV=request.session['MSSV'])
+        cmt_user = Account.objects.get(Username=request.session['username'])
         if request.FILES.get('g_cmt_image', False):  # Check if user updated image
             cmt_image = request.FILES['g_cmt_image']
         else:
             cmt_image = ''
         post.g_post_comment = F('g_post_comment') + '1'
         post.save()
-        Group_comment(g_postID=post, g_cmt_content=cmt_content,
-                      g_cmt_user=cmt_user, g_cmt_image=cmt_image).save()
+
+        g_cmt = Group_comment.objects.create(
+            g_postID=post, g_cmt_content=cmt_content, g_cmt_user=cmt_user, g_cmt_image=cmt_image)
+        g_cmt.save()
+
+        if (post.g_post_user != cmt_user):
+            Notification(g_cmt=g_cmt, g_post=post,
+                         user=post.g_post_user, type=gr.group_name).save()
+
     post = Group_post.objects.get(id=pk1)
     Cmts = Group_comment.objects.filter(g_postID=pk1).order_by('-g_cmt_date')
 
@@ -76,7 +84,7 @@ def g_discussion(request, pk1, pk2):
 
 def g_topic(request, pk):
     if (request.method == 'POST'):
-        post_user = Student.objects.get(MSSV=request.session['MSSV'])
+        post_user = Account.objects.get(Username=request.session['username'])
         post_title = request.POST['g_post_title']
         post_content = request.POST['g_post_content']
         groupID = Group.objects.get(id=pk)

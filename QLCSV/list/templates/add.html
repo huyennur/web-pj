@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/add.css' %}">
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+{% block title %}Thêm sinh viên{% endblock %}
+{% block content %}
+<form method="POST">
+    <div class="container">
+      <div class="heading">
+        <h4>Thêm thành viên</h4>
+      </div>
+
+      <div class="line"></div>
+
+      <div class="form" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+
+          <div class="form-group col-9 row">
+            <div class="form-group col-5">
+              <label for="student-code-input">Mã sinh viên</label>
+              <input type="text" name="MSSV" class="form-control">
+            </div> 
+            <div class="form-group col-5">
+              <label for="student-code-input">Mật khẩu</label>
+              <input type="text" name="Password" class="form-control">
+            </div> 
+            <div class="form-group col-5">
+              <label for="name-input">Họ</label>
+              <input type="text" name="FirstName" class="form-control">
+            </div>
+        
+            <div class="form-group col-5">
+                <label for="name-input">Tên</label>
+                <input type="text" name="LastName" class="form-control">
+            </div>  
+            
+            <div class="form-group col-4">
+              <label for="Date-of-birth-input">Ngày sinh</label>
+              <div class="date-span row pl-3">
+                <input type="date" name="DateOfBirth" class="form-control">
+              </div>
+            </div>
+  
+            <div class="form-group col-2">
+              <label for="gender">Giới tính</label>
+              <select name="Gender" style="height: 40px;width: 104px;border: 1px solid #ced4da;border-radius: 0.25rem">
+                  <option>Nam</option>
+                  <option>Nữ</option>
+                  <option>Khác</option>
+              </select>
+            </div>
+
+            <div class="form-group col-4">
+              <label for="student-code-input">Email</label>
+              <input type="text" name="Email" class="form-control" value="macdinh@gmail.com" />
+            </div> 
+          </div> 
+        </div>
+            
+        <div class="form-row">
+          <div class="form-group col-4">
+            <label for="address-input">Quê quán</label>
+            <input type="text" name="Address" class="form-control">
+          </div>
+          <div class="form-group col-4">
+            <label for="Start-time-school-input">Thời gian vào học</label>
+            <input type="date" name="StartTimeShool" class="form-control">
+          </div>
+          <div class="form-group col-4">
+            <label for="finish-time-school-input">Thời gian hoàn thành khóa học</label>
+            <input type="date" name="FinishTimeSchool" class="form-control">
+          </div>
+        </div>
+          
+        <div class="form-row">      
+          <div class="form-group col-3">
+            <label for="major-input">Chuyên ngành</label>
+            <input type="text" name="Major" class="form-control">
+          </div>
+          <div class="form-group col-3">
+            <label for="major-input">Khối</label>
+            <input type="text" name="Grade" class="form-control">
+          </div>
+          <div class="form-group col-3">
+            <label for="major-input">Lớp</label>
+            <input type="text" name="Class" class="form-control">
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <input type="submit" class="btn-custom" name="save" value="Thêm" />
+          </div>
+        </div>
+      
+      </div>
+    
+    </div>
+</form>
+{% endblock %}

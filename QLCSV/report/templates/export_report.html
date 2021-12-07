@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static%} {% block css %}
+<link rel="stylesheet" href="{% static 'css/export.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock css %} 
+{% block title %}Xuất dữ liệu{% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="heading">
+    <h4>Xuất dữ liệu</h4>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="text">
+    <h6>Xuất dữ liệu danh sách báo cáo</h6>
+    Hãy chọn định dạng file mà bạn muốn xuất
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="choice">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        name="file-format"
+      >
+        <option disabled selected="true">Chọn định dạng</option>
+        <option>XLS</option>
+        <option>XLSX</option>
+        <option>CSV</option>
+        <option>JSON</option>
+      </select>
+
+      <input type="submit" class="btn-cus" value="Xuất" />
+    </div>
+  </form>
+  <div class="back">
+    <a href="{% url 'report' %}">Trở về danh sách</a>
+  </div>
+</div>
+
+{% endblock %}

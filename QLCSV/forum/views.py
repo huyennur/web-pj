@@ -1,10 +1,11 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from authentication.models import Student
+from authentication.models import Account
 from forum.models import Post, Comment
 from django.contrib import messages
 from django.db.models import F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from notification.models import Notification
 
 
 def forum(request):
@@ -29,15 +30,22 @@ def discussion(request, pk):
     post = Post.objects.get(id=pk)
     if (request.method == "POST"):
         cmt_content = request.POST['newcmt']
-        cmt_user = Student.objects.get(MSSV=request.session['MSSV'])
+        cmt_user = Account.objects.get(Username=request.session['username'])
         if request.FILES.get('cmt_image', False):  # Check if user updated image
             cmt_image = request.FILES['cmt_image']
         else:
             cmt_image = ''
+
         post.post_comment = F('post_comment') + '1'
         post.save()
-        Comment(postID=post, cmt_content=cmt_content,
-                cmt_user=cmt_user, cmt_image=cmt_image).save()
+        cmt = Comment.objects.create(
+            postID=post, cmt_content=cmt_content, cmt_user=cmt_user, cmt_image=cmt_image)
+        cmt.save()
+
+        if (post.post_user != cmt_user):
+            Notification(cmt=cmt, post=post, user=post.post_user,
+                         type='Forum').save()
+
     post = Post.objects.get(id=pk)
     Cmts = Comment.objects.filter(postID=pk).order_by('-cmt_date')
 
@@ -57,7 +65,7 @@ def discussion(request, pk):
 
 def topic(request):
     if (request.method == 'POST'):
-        post_user = Student.objects.get(MSSV=request.session['MSSV'])
+        post_user = Account.objects.get(Username=request.session['username'])
         print(post_user)
         post_title = request.POST['post_title']
         post_content = request.POST['post_content']
@@ -65,8 +73,12 @@ def topic(request):
             post_image = request.FILES['post_image']
         else:
             post_image = ''
-        Post(post_user=post_user, post_content=post_content,
-             post_title=post_title, post_image=post_image).save()
+        post = Post.objects.create(post_user=post_user, post_content=post_content,
+                                   post_title=post_title, post_image=post_image)
+        post.save()
+
+        if (post_user.Group.name == 'staff'):
+            Notification(post=post).save()
 
         return redirect(f'/forum/')
     return render(request, 'topic.html')
@@ -90,9 +102,8 @@ def editpost(request, pk):
 
 def editcmt(request, pk):
     cmt = Comment.objects.get(id=pk)
-    print('khue')
+
     if (request.method == 'POST'):
-        print('yes')
         cmt.cmt_content = request.POST['new_cmt_content']
         if request.FILES.get('new_cmt_image', False):  # Check if user updated image
             cmt.cmt_image = request.FILES['new_cmt_image']

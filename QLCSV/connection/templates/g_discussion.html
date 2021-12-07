@@ -24,14 +24,14 @@
         <!-- post header-->
         <div class="post-header row">
           <div class="col-lg-1">
-            <a href="{% url 'profile' post.g_post_user.MSSV %}">
+            <a href="{% url 'profile' post.g_post_user.Username %}">
               <img src="{{post.g_post_user.profile.image.url}}" alt="" id="useravatar">
             </a>
           </div>
   
           <div class="col-lg-8">
             <div class="user-name">
-              <span><a href="{% url 'profile' post.g_post_user.MSSV %}">{{post.g_post_user.FirstName}} {{post.g_post_user.LastName}}</a></span>
+              <span><a href="{% url 'profile' post.g_post_user.Username %}">{{post.g_post_user.FirstName}} {{post.g_post_user.LastName}}</a></span>
             </div>
   
             <div class="date">
@@ -39,9 +39,9 @@
             </div>  
           </div>
           
-          {% if curr_user.MSSV == post.g_post_user.MSSV or curr_user.Group.name == 'staff' %}
+          {% if curr_user.Username == post.g_post_user.Username or curr_user.Group.name == 'staff' %}
           <div class="btn-cmt col-3 pl-5">
-            {% if curr_user.Group.name != 'staff' or curr_user.MSSV == post.g_post_user.MSSV %}
+            {% if curr_user.Group.name != 'staff' or curr_user.Username == post.g_post_user.Username %}
             <a href="{% url 'g_editpost' pk1=post.id pk2=Group.id%}" class="btn-del">
               Sửa
             </a>
@@ -138,7 +138,7 @@
           <div class="reader1 user-cmt">
             <div class="row">
               <div class="col-lg-1">
-                <a href="{% url 'profile' cmt.g_cmt_user.MSSV %}">
+                <a href="{% url 'profile' cmt.g_cmt_user.Username %}">
                   <img src="{{cmt.g_cmt_user.profile.image.url}}" alt="" class="user-comment-avatar">
                 </a>
               </div>
@@ -146,13 +146,13 @@
               <div class="col-lg-11 row">
                 <div class="col-12 row">
                   <div class="name-date col-9">
-                    <span class="user-name"><a href="{% url 'profile' cmt.g_cmt_user.MSSV %}">{{cmt.g_cmt_user.FirstName}} {{cmt.g_cmt_user.LastName}}</a></span>
+                    <span class="user-name"><a href="{% url 'profile' cmt.g_cmt_user.Username %}">{{cmt.g_cmt_user.FirstName}} {{cmt.g_cmt_user.LastName}}</a></span>
                     <br>
                     <span class="date-cmt"><a href="">{{cmt.g_cmt_date|date:"G:i d/m/Y"}}</a></span>
                   </div>
-                  {% if curr_user.MSSV == cmt.g_cmt_user.MSSV or curr_user.Group.name == 'staff' %}
+                  {% if curr_user.Username == cmt.g_cmt_user.Username or curr_user.Group.name == 'staff' %}
                   <div class="btn-cmt col-3 pl-5">
-                    {% if curr_user.Group.name != 'staff' or curr_user.MSSV == cmt.g_cmt_user.MSSV %}
+                    {% if curr_user.Group.name != 'staff' or curr_user.Username == cmt.g_cmt_user.Username %}
                       <a href="{% url 'g_editcmt' pk1=cmt.id pk2=Group.id %}" class="btn-del">
                         Sửa
                       </a>
@@ -195,12 +195,13 @@
                 <div class="content col-12">
                   <p>{{cmt.g_cmt_content}}</p>
                   {% if cmt.g_cmt_image %}
-                  <img src="{{cmt.g_cmt_image.url}}" style="width:12rem" alt=""/>
+                  <img src="{{cmt.g_cmt_image.url}}" height="500px" width="500px" style="width:12rem" alt=""/>
                   {% endif %}
                 </div>  
               </div>
             </div>
           </div>
+          <br><br>
           {% endfor %}
           <nav aria-label="Page navigation" class="forum-pagination">
             <ul class="pagination justify-content-center">
@@ -228,7 +229,7 @@
                 {% endfor %}
         
                 {% if Cmts.number < Cmts.paginator.num_pages|add:"-5" %}
-                <li class="page-item"><a class="page-link" href="?page={{ Cmts.paginator.num_pages }}">{{ Posts.paginator.num_pages }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ Cmts.paginator.num_pages }}">{{ Cmts.paginator.num_pages }}</a></li>
                 {% endif %}
         
                 {% if Cmts.has_next %}

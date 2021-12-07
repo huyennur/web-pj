@@ -5,7 +5,7 @@
 {% endblock css%} 
 {% block title %}[Sửa] {{post.g_post_title}}{% endblock %} 
 {% block content %}
-{% if curr_user.MSSV == post.g_post_user.MSSV %}
+{% if curr_user.Username == post.g_post_user.Username %}
     <!--form-->
     <form class="form-container" method="post" enctype="multipart/form-data">
       {% csrf_token %}

@@ -278,7 +278,8 @@ body.active #logo {
 }
 
 .noti-list {
-  padding-left: 0;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 .noti-item {
@@ -366,3 +367,13 @@ body.active #logo {
   left: 20px;
   width: 95%;
 }
+
+body.active .nav-noti {
+  position: absolute;
+  top: 90%;
+  left: 49%;
+}
+/* .content {
+  position: relative;
+  top: 2rem;
+} */

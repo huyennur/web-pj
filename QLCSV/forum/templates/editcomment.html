@@ -18,19 +18,19 @@
       <input type="button" value="Tạo chủ đề +" class="btn-custom">
     </a>
   </div>
-{% if curr_user.MSSV == cmt.cmt_user.MSSV %}
+{% if curr_user.Username == cmt.cmt_user.Username %}
   <div class="post">
     <!-- post header-->
     <div class="post-header row">
       <div class="col-lg-1">
-        <a href="{% url 'profile' post.post_user.MSSV %}">
+        <a href="{% url 'profile' post.post_user.Username %}">
           <img src="{{post.post_user.profile.image.url}}" alt="" id="useravatar">
         </a>
       </div>
 
       <div class="col-lg-8">
         <div class="user-name">
-          <span><a href="{% url 'profile' post.post_user.MSSV %}">{{post.post_user.FirstName}} {{post.post_user.LastName}}</a></span>
+          <span><a href="{% url 'profile' post.post_user.Username %}">{{post.post_user.FirstName}} {{post.post_user.LastName}}</a></span>
         </div>
 
         <div class="date">
@@ -38,9 +38,9 @@
         </div>  
       </div>
       
-      {% if curr_user.MSSV == post.post_user.MSSV or curr_user.Group.name == 'staff' %}
+      {% if curr_user.Username == post.post_user.Username or curr_user.Group.name == 'staff' %}
       <div class="btn-cmt col-3 pl-5">
-        {% if curr_user.Group.name != 'staff' or curr_user.MSSV == post.post_user.MSSV %}
+        {% if curr_user.Group.name != 'staff' or curr_user.Username == post.post_user.Username %}
         <a href="{% url 'editpost' pk=post.id %}" class="btn-del">
           Sửa
         </a>
@@ -112,7 +112,7 @@
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
           <div class="user-comment">
-            <a href="{% url 'profile' curr_user.MSSV %}"><img src="{{curr_user.profile.image.url}}" alt="" class="user-comment-avatar"></a>
+            <a href="{% url 'profile' curr_user.Username %}"><img src="{{curr_user.profile.image.url}}" alt="" class="user-comment-avatar"></a>
             <input type="text" class="user-comment-area" value="{{cmt.cmt_content}}" name="new_cmt_content" required>
             <div class="row">
               <!--image upload-->

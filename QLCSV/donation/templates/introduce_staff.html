@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/afterlogin.css' %}">
+  <link rel="stylesheet" href="{% static 'css/list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/donation.css' %}">
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block title %}Danh sách hỗ trợ{% endblock %}
+{% block content %}
+{% csrf_token %}
+<div class="container1">
+    <div class="card-header">
+      <div class="row">
+        <div class="">
+          <input type="text" name="searchInputIntroduce" id="searchInputIntroduce" onkeypress="searchPressIntroduce(event)" style="height:37px;"></input>
+        </div>
+        <div class="col col-md-1 text-left">
+            <button type="submit" id="search_button" class="btn btn-outline-secondary" onclick="searchIntroduce()">Tìm</button>
+        </div>
+        <div class="col col-md-1 text-right">
+            <button type="submit" id="export_button" class="btn btn-outline-secondary" onclick="window.location.href='{% url 'export_introduce' %}'">Xuất file</button>
+        </div>
+      </div>
+      <ul>
+        <li class="active"><a href="{% url 'donation' %}">Góp quỹ</a></li>
+        <li><a href="{% url 'regis' %}">ĐK thỉnh giảng</a></li>
+        <li><a href="{% url 'introduce' %}">Giới thiệu</a></li>
+      </ul>
+    </div>
+  <div class="card">
+      
+    <div class="card-body">
+        <table id="student_data" class="table table-striped table-hover table-bordered" style="text-align: center">
+          <thead>
+            <tr>
+              <th style="width:8%">MSSV</th>
+              <th style="width:15%">Họ và tên</th>
+              <th style="width:20%">Chủ đề</th>
+              <th>Nội dung</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for introduce in introduces %}
+            <tr id="{{introduce.StudentCode}}">
+                <td><a href={% url 'profile' introduce.StudentCode%}> {{introduce.StudentCode}}</a></td>
+                <td><a href={% url 'profile' introduce.StudentCode%}> {{introduce.FirstName}} {{introduce.LastName}}</a></td>
+                <td> {{introduce.intro_title}}</td>
+                <td> {{introduce.intro_content}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+      </div>
+  </div>
+    
+</div>
+
+{%endblock%}
+    
+
+{% block js %}
+<script src="{% static "js/donation.js" %}"></script>
+{% endblock %}
+</html>
