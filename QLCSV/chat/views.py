@@ -9,7 +9,7 @@ import json
 # Create your views here.
 
 
-def index(request):
+def indexChat(request):
     user = Account.objects.get(Username=request.session['username'])
     # rooms = PrivateRoom.objects.filter(Q(user1=user) | Q(user2=user)).filter(lastMessage__isnull=False).distinct().order_by('-lastUpdateTime')
     rooms = PrivateRoom.objects.filter(Q(user1=user) | Q(
