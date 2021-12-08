@@ -5,9 +5,9 @@ Nhóm 6 lớp 2122I_INT3306_22 - UET
 Đây là bài tập lớn cuối kỳ của nhóm 6 về trang web quản lý hệ thống cựu sinh viên. Trang web này dành cho các sinh viên đã tốt nghiệp và đã ra trường, muốn liên hệ cũng như hỗ trợ nhà trường. Ngoài ra trang web này còn giúp nhà trường quản lý và liên hệ với cựu sinh viên để thông báo các sự kiện diễn ra của trường.
 
 ## Công nghệ sử dụng
-**Frontend:** HTML, CSS, JAVASCRIPT, BOOTSTRAP
-**Backend:** Django
-**Database:** Mysql PHPmyadmin
+-**Frontend:** HTML, CSS, JAVASCRIPT, BOOTSTRAP
+-**Backend:** Django
+-**Database:** Mysql PHPmyadmin
 
 ## Tạo database:
 Sử dụng trang web PHPmyadmin: tạo database mới có tên **qlcsv** và không đặt mật khẩu (lưu ý cài đặt đúng với các yêu cầu: 'NAME': 'qlcsv', 'USER': 'root', 'password': "", 'HOST': '127.0.0.1', 'PORT': '3306')
